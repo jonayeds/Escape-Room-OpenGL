@@ -16,13 +16,21 @@ float degreeY = 0;
 float degreeZ = 0;
 float scale = 0.5;
 float posX = 0.0f;
-float posZ = -23.0f;
+float posZ = -10.0f;
 float posY = 0.0f;
 
 // The direction the camera is looking
 float lookDirX = 0.0f;
 float lookDirY = 0.0f;
 float lookDirZ = 1.0f;
+
+float yaw = -90.0f; 
+float pitch = 0.0f;
+float sensitivity = 0.1f;
+int windowWidth = 1080;
+int windowHeight = 720;
+
+
 
 
 void Quads(float x, float y, float z)
@@ -120,46 +128,54 @@ void DrawGrid_YZ(float height, float depth)
     }
 }
 
-// Global variables for window size (make sure your reshape function updates these!)
-int windowWidth = 1080;
-int windowHeight = 720;
-int mouseX = 0;
-int mouseY = 0;     
 
-// Maximum angles (How far your head can turn when the mouse hits the edge of the screen)
-float maxLookAngleX = 90.0f; // Look 90 degrees left or right
-float maxLookAngleY = 89.0f; // Look almost straight up or down
+int mouseX = 0;
+int mouseY = 0;
+int lastMouseX = -1;
+int lastMouseY = -1;     
 
 void mouseMove(int x, int y) {
-    cout << "Mouse moved to: (" << x << ", " << y << ")" << endl;   
-    // // 1. Find the center of the screen
-    // float centerX = windowWidth / 2.0f;
-    // float centerY = windowHeight / 2.0f;
+    if (x > windowWidth  || y > windowHeight || x < 0 || y < 0) {
+        return; 
+    }
 
-    // // 2. Normalize the mouse coordinates to a range of [-1.0 to 1.0]
-    // // -1.0 is the left/bottom edge, 1.0 is the right/top edge, 0.0 is the exact center.
-    // float normalizedX = (x - centerX) / centerX;
-    // float normalizedY = (centerY - y) / centerY; // Reversed because screen Y is flipped
+    if (lastMouseX == -1 || lastMouseY == -1) {
+        lastMouseX = x;
+        lastMouseY = y;
+        return;
+    }
+    float dx = x - lastMouseX;
+    float dy = lastMouseY - y;
 
-    // // 3. Convert that normalized position into actual degrees (Yaw and Pitch)
-    // // We add -90.0f to the Yaw because OpenGL's default "forward" is down the -Z axis
-    // float targetYaw = -90.0f + (normalizedX * maxLookAngleX);
-    // float targetPitch = (normalizedY * maxLookAngleY);
+    lastMouseX = x;
+    lastMouseY = y;
 
-    // // 4. Convert the degrees to radians for the math functions
-    // float radYaw = targetYaw * (3.14159f / 180.0f);
-    // float radPitch = targetPitch * (3.14159f / 180.0f);
+    yaw = yaw + (dx * sensitivity);
+    pitch = pitch + (dy * sensitivity);
 
-    // // 5. Calculate the exact 3D vector the camera should look down
-    // lookDirX = cos(radYaw) * cos(radPitch);
-    // lookDirY = sin(radPitch);
-    // lookDirZ = sin(radYaw) * cos(radPitch);
+    if (pitch > 89.0f) pitch = 89.0f;
+    if (pitch < -89.0f) pitch = -89.0f;
 
-    lookDirX = (windowWidth / 2.0f -x) / (windowWidth / 2.0f);     
-    lookDirY = (windowHeight / 2.0f - y) / (windowHeight / 2.0f);
+    float radYaw = yaw * (3.14159f / 180.0f);
+    float radPitch = pitch * (3.14159f / 180.0f);
 
-    // Tell GLUT to redraw the frame with the new camera angle
-    glutPostRedisplay(); 
+    lookDirX = cos(radYaw) * cos(radPitch);
+    lookDirY = sin(radPitch);
+    lookDirZ = sin(radYaw) * cos(radPitch);
+
+    int padding = 50;
+    if (x < padding || x > windowWidth - padding || y < padding || y > windowHeight - padding) {
+        int centerX = windowWidth / 2;
+        int centerY = windowHeight / 2;
+        
+        // CRITICAL: We must update the lastMouse variables to the center,
+        // otherwise the next frame will think you jerked the mouse 400 pixels!
+        lastMouseX = centerX;
+        lastMouseY = centerY;
+        
+        // Execute the heavy Mac OS system call
+        glutWarpPointer(centerX, centerY);
+    }
 }
 
 static void light()
@@ -438,9 +454,9 @@ void specialKey(int key, int x, int y)
     glutPostRedisplay();
 }
 
-static void idle(void)
-{
-    glutPostRedisplay();
+void timer(int value) {
+    glutPostRedisplay();           // 1. Redraw the screen
+    glutTimerFunc(16, timer, 0);   // 2. Wait 16ms, then run this function again
 }
 
 int main(int argc, char *argv[])
@@ -471,7 +487,7 @@ int main(int argc, char *argv[])
     glutReshapeFunc(reshape);
     glutKeyboardFunc(key);
     glutSpecialFunc(specialKey);
-    glutIdleFunc(idle);
+    glutTimerFunc(0, timer, 0);
 
     glClearColor(0, 0, 0, 1);
     glEnable(GL_CULL_FACE);
