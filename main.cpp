@@ -7,6 +7,8 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <math.h>
+
 using namespace std;
 
 float degreeX = 0;
@@ -16,6 +18,12 @@ float scale = 0.5;
 float posX = 0.0f;
 float posZ = -23.0f;
 float posY = 0.0f;
+
+// The direction the camera is looking
+float lookDirX = 0.0f;
+float lookDirY = 0.0f;
+float lookDirZ = 1.0f;
+
 
 void Quads(float x, float y, float z)
 {
@@ -61,207 +69,241 @@ void Quads(float x, float y, float z)
     glVertex3f(x, max_y, max_z);
     glVertex3f(max_x, max_y, max_z);
 
-    glEnd();    
+    glEnd();
 }
 
-void DrawGrid_XZ(float width, float depth) 
+void DrawGrid_XZ(float width, float depth)
 {
     float startX = -width / 2.0f;
     float startZ = -depth / 2.0f;
 
-    for (int x = 0; x < width; x++) {
-        for (int z = 0; z < depth; z++) {
+    for (int x = 0; x < width; x++)
+    {
+        for (int z = 0; z < depth; z++)
+        {
             float curX = startX + x;
-            float curZ = startZ + z ;
+            float curZ = startZ + z;
             Quads(curX, 0, curZ);
         }
     }
 }
 
-void DrawGrid_XY(float width, float height) 
+void DrawGrid_XY(float width, float height)
 {
     float startX = -width / 2.0f;
     float startY = -height / 2.0f;
 
-    for (int x = 0; x < width; x++) {
-        for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
             float curX = startX + x;
-            float curY = startY + y ;
-            Quads(curX,  curY, 0);
+            float curY = startY + y;
+            Quads(curX, curY, 0);
         }
     }
 }
 
-void DrawGrid_YZ(float height, float depth) 
+void DrawGrid_YZ(float height, float depth)
 {
     float startY = -height / 2.0f;
     float startZ = -depth / 2.0f;
 
-    for (int y = 0; y < height; y++) {
-        for (int z = 0; z < depth; z++) {
+    for (int y = 0; y < height; y++)
+    {
+        for (int z = 0; z < depth; z++)
+        {
             float curY = startY + y;
-            float curZ = startZ + z ;
-            Quads(0,curY, curZ);
+            float curZ = startZ + z;
+            Quads(0, curY, curZ);
         }
     }
 }
 
+// Global variables for window size (make sure your reshape function updates these!)
+int windowWidth = 1080;
+int windowHeight = 720;
+int mouseX = 0;
+int mouseY = 0;     
 
-static void light(){
-GLfloat light_position[] = {0.0f, 0.0f, 0.0f, 1.0f};
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    
-    glPushMatrix();
-        glDisable(GL_LIGHTING); 
-        glColor3d(1, 1, 1);
-        glTranslatef(0.0f, 0.0f, 0.0f);
-        glutSolidSphere(0.5, 64, 64);
-        glEnable(GL_LIGHTING); 
-    glPopMatrix();
-    
+// Maximum angles (How far your head can turn when the mouse hits the edge of the screen)
+float maxLookAngleX = 90.0f; // Look 90 degrees left or right
+float maxLookAngleY = 89.0f; // Look almost straight up or down
 
+void mouseMove(int x, int y) {
+    cout << "Mouse moved to: (" << x << ", " << y << ")" << endl;   
+    // // 1. Find the center of the screen
+    // float centerX = windowWidth / 2.0f;
+    // float centerY = windowHeight / 2.0f;
 
+    // // 2. Normalize the mouse coordinates to a range of [-1.0 to 1.0]
+    // // -1.0 is the left/bottom edge, 1.0 is the right/top edge, 0.0 is the exact center.
+    // float normalizedX = (x - centerX) / centerX;
+    // float normalizedY = (centerY - y) / centerY; // Reversed because screen Y is flipped
+
+    // // 3. Convert that normalized position into actual degrees (Yaw and Pitch)
+    // // We add -90.0f to the Yaw because OpenGL's default "forward" is down the -Z axis
+    // float targetYaw = -90.0f + (normalizedX * maxLookAngleX);
+    // float targetPitch = (normalizedY * maxLookAngleY);
+
+    // // 4. Convert the degrees to radians for the math functions
+    // float radYaw = targetYaw * (3.14159f / 180.0f);
+    // float radPitch = targetPitch * (3.14159f / 180.0f);
+
+    // // 5. Calculate the exact 3D vector the camera should look down
+    // lookDirX = cos(radYaw) * cos(radPitch);
+    // lookDirY = sin(radPitch);
+    // lookDirZ = sin(radYaw) * cos(radPitch);
+
+    lookDirX = (windowWidth / 2.0f -x) / (windowWidth / 2.0f);     
+    lookDirY = (windowHeight / 2.0f - y) / (windowHeight / 2.0f);
+
+    // Tell GLUT to redraw the frame with the new camera angle
+    glutPostRedisplay(); 
 }
 
+static void light()
+{
+    GLfloat light_position_1[] = {-4.0f, 2.25f, -4.0f, 1.0f};
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position_1);
+
+    glPushMatrix();
+    glDisable(GL_LIGHTING);
+    glColor3d(1, 1, 1);
+    glTranslatef(-4.0f, 2.25f, -4.0f);
+    glutSolidSphere(0.5, 64, 64);
+    glEnable(GL_LIGHTING);
+    glPopMatrix();
+}
 
 static void Room()
 {
     light();
 
-
     // floor
     glPushMatrix();
-    glTranslatef(0,-3.5,0);
-    DrawGrid_XZ(15.0f,15.0f);
+    glTranslatef(0, -3.5, 0);
+    DrawGrid_XZ(15.0f, 15.0f);
     glPopMatrix();
-    
+
     // pillers
     glPushMatrix();
-    glTranslatef(7,0,7);
-    glScalef(1,7,1);
-    Quads(-0.5,-0.5,-0.5);
-    glPopMatrix();
-    
-    glPushMatrix();
-    glTranslatef(7,0,-7);
-    glScalef(1,7,1);
-    Quads(-0.5,-0.5,-0.5);
+    glTranslatef(7, 0, 7);
+    glScalef(1, 7, 1);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-7,0,-7);
-    glScalef(1,7,1);
-    Quads(-0.5,-0.5,-0.5);
+    glTranslatef(7, 0, -7);
+    glScalef(1, 7, 1);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-7,0,7);
-    glScalef(1,7,1);
-    Quads(-0.5,-0.5,-0.5);
+    glTranslatef(-7, 0, -7);
+    glScalef(1, 7, 1);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
-    
-    
+
+    glPushMatrix();
+    glTranslatef(-7, 0, 7);
+    glScalef(1, 7, 1);
+    Quads(-0.5, -0.5, -0.5);
+    glPopMatrix();
+
     // walls
 
     // front side
     glPushMatrix();
-    glTranslatef(-4,0,6.5);
-    DrawGrid_XY(6,7);   
+    glTranslatef(-4, 0, 6.5);
+    DrawGrid_XY(6, 7);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(4,0,6.5);
-    DrawGrid_XY(6,7);
+    glTranslatef(4, 0, 6.5);
+    DrawGrid_XY(6, 7);
     glPopMatrix();
 
     // back side
     glPushMatrix();
-    glTranslatef(4.5,0,-7.5);
-    DrawGrid_XY(4.5,7);
+    glTranslatef(4.5, 0, -7.5);
+    DrawGrid_XY(4.5, 7);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-4.5,0,-7.5);
-    DrawGrid_XY(4.5,7);
+    glTranslatef(-4.5, 0, -7.5);
+    DrawGrid_XY(4.5, 7);
     glPopMatrix();
 
     // left side
     glPushMatrix();
-    glTranslatef(-7.5,0,-4);
-    DrawGrid_YZ(7,6);
+    glTranslatef(-7.5, 0, -4);
+    DrawGrid_YZ(7, 6);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-7.5,0,4);
-    DrawGrid_YZ(7,6);
+    glTranslatef(-7.5, 0, 4);
+    DrawGrid_YZ(7, 6);
     glPopMatrix();
 
     // right side
     glPushMatrix();
-    glTranslatef(6.5,0,-4);
-    DrawGrid_YZ(7,6);
+    glTranslatef(6.5, 0, -4);
+    DrawGrid_YZ(7, 6);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(6.5,0,4);
-    DrawGrid_YZ(7,6);
+    glTranslatef(6.5, 0, 4);
+    DrawGrid_YZ(7, 6);
     glPopMatrix();
-
 
     // wall fillers
 
     // front
     glPushMatrix();
-    glTranslatef(0,-2.25,7);
-    glScalef(2,2,1);
-    Quads(-0.5,-0.5,-0.5);
+    glTranslatef(0, -2.25, 7);
+    glScalef(2, 2, 1);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(0,2.5,7);
-    glScalef(2,2,1);
-    Quads(-0.5,-0.5,-0.5);
+    glTranslatef(0, 2.5, 7);
+    glScalef(2, 2, 1);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
-    
+
     // left side
     glPushMatrix();
-    glTranslatef(7,2.5,0);
-    glScalef(1,2,2);
-    Quads(-0.5,-0.5,-0.5);
+    glTranslatef(7, 2.5, 0);
+    glScalef(1, 2, 2);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(7,-2.25,0);
-    glScalef(1,2,2);
-    Quads(-0.5,-0.5,-0.5);
+    glTranslatef(7, -2.25, 0);
+    glScalef(1, 2, 2);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
 
     // right side
     glPushMatrix();
-    glTranslatef(-7,2.5,0);
-    glScalef(1,2,2);
-    Quads(-0.5,-0.5,-0.5);
+    glTranslatef(-7, 2.5, 0);
+    glScalef(1, 2, 2);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
 
     glPushMatrix();
-    glTranslatef(-7,-2.25,0);
-    glScalef(1,2,2);
-    Quads(-0.5,-0.5,-0.5);
+    glTranslatef(-7, -2.25, 0);
+    glScalef(1, 2, 2);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
 
-    // roof
+    // rojof
     glPushMatrix();
-    glTranslatef(0,3.5,0);
+    glTranslatef(0, 3.5, 0);
     DrawGrid_XZ(15.0f, 15.0f);
     glPopMatrix();
-
-    
-
-
 }
-
-
-
 
 static void display(void)
 {
@@ -269,26 +311,29 @@ static void display(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glTranslatef(posX, posY, posZ);
-    glTranslatef(0, 0, 13);
-    
-    
-    // light
-    // light();
+    // In your display() function:
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
-    
-    
+    // Calculate where the camera is looking by adding the direction to the position
+    float targetX = posX + lookDirX;
+    float targetY = posY + lookDirY;
+    float targetZ = posZ + lookDirZ;
+
+    // Apply the camera
+    gluLookAt(posX, posY, posZ,          
+              targetX, targetY, targetZ, 
+              0.0f, 1.0f, 0.0f);         
+
+    // glTranslatef(posX, posY, posZ);
+    // glTranslatef(0, 0, 13);
 
     glRotated(degreeX, 1.0, 0.0, 0.0);
     glRotated(degreeY, 0.0, 1.0, 0.0);
     glRotated(degreeZ, 0.0, 0.0, 1.0);
     glScalef(scale, scale, scale);
 
-
-    
-    
     Room();
-
 
     glutSwapBuffers();
 }
@@ -300,6 +345,8 @@ static void reshape(int width, int height)
         height = 1;
     }
 
+    windowWidth = width;
+    windowHeight = height;
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -362,29 +409,29 @@ void specialKey(int key, int x, int y)
     switch (key)
     {
     case GLUT_KEY_LEFT:
-        posX -= 0.5f;
+        posX += 0.5f;
         break;
     case GLUT_KEY_RIGHT:
-        posX += 0.5f;
+        posX -= 0.5f;
         break;
     case GLUT_KEY_UP:
         if (shift)
         {
-            posZ += 0.5f;
+            posY += 0.5f;
         }
         else
         {
-            posY += 0.5f;
+            posZ += 0.5f;
         }
         break;
     case GLUT_KEY_DOWN:
         if (shift)
         {
-            posZ -= 0.5f;
+            posY -= 0.5f;
         }
         else
         {
-            posY -= 0.5f;
+            posZ -= 0.5f;
         }
         break;
     }
@@ -435,12 +482,14 @@ int main(int argc, char *argv[])
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     glShadeModel(GL_SMOOTH);
 
-    
+    glutPassiveMotionFunc(mouseMove);
+    glutSetCursor(GLUT_CURSOR_NONE);
 
     glutMainLoop();
 
