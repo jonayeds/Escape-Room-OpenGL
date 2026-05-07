@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
-add_executable(app main.cpp)
-
+add_executable(app main.cpp draw/shapes.cpp globals/globals.cpp components/components.cpp)
+ 
 target_link_libraries(app PRIVATE OpenGL::GL GLUT::GLUT)
 
 if(APPLE)
