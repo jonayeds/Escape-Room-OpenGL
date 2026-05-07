@@ -16,7 +16,7 @@ float degreeY = 0;
 float degreeZ = 0;
 float scale = 0.5;
 float posX = 0.0f;
-float posZ = -10.0f;
+float posZ = 0.0f;
 float posY = 0.0f;
 
 // The direction the camera is looking
@@ -24,7 +24,7 @@ float lookDirX = 0.0f;
 float lookDirY = 0.0f;
 float lookDirZ = 1.0f;
 
-float yaw = -90.0f; 
+float yaw = 90.0f; 
 float pitch = 0.0f;
 float sensitivity = 0.1f;
 int windowWidth = 1080;
@@ -168,12 +168,9 @@ void mouseMove(int x, int y) {
         int centerX = windowWidth / 2;
         int centerY = windowHeight / 2;
         
-        // CRITICAL: We must update the lastMouse variables to the center,
-        // otherwise the next frame will think you jerked the mouse 400 pixels!
         lastMouseX = centerX;
         lastMouseY = centerY;
-        
-        // Execute the heavy Mac OS system call
+
         glutWarpPointer(centerX, centerY);
     }
 }
@@ -420,39 +417,40 @@ static void key(unsigned char key, int x, int y)
 
 void specialKey(int key, int x, int y)
 {
-    const int mods = glutGetModifiers();
-    const bool shift = mods == GLUT_ACTIVE_SHIFT;
+    float speed = 0.5f;
+
+    float radYaw = yaw * (3.14159f / 180.0f);
+
+    float forwardX = cos(radYaw);
+    float forwardZ = sin(radYaw);
+
+    float rightX = cos(radYaw + (3.14159f / 2.0f));
+    float rightZ = sin(radYaw + (3.14159f / 2.0f));
+
     switch (key)
     {
-    case GLUT_KEY_LEFT:
-        posX += 0.5f;
+    case GLUT_KEY_UP: // Walk Forward
+        posX += forwardX * speed;
+        posZ += forwardZ * speed;
         break;
-    case GLUT_KEY_RIGHT:
-        posX -= 0.5f;
+
+    case GLUT_KEY_DOWN: // Walk Backward
+        posX -= forwardX * speed;
+        posZ -= forwardZ * speed;
         break;
-    case GLUT_KEY_UP:
-        if (shift)
-        {
-            posY += 0.5f;
-        }
-        else
-        {
-            posZ += 0.5f;
-        }
+
+    case GLUT_KEY_LEFT: // Strafe Left
+        posX -= rightX * speed;
+        posZ -= rightZ * speed;
         break;
-    case GLUT_KEY_DOWN:
-        if (shift)
-        {
-            posY -= 0.5f;
-        }
-        else
-        {
-            posZ -= 0.5f;
-        }
+
+    case GLUT_KEY_RIGHT: // Strafe Right
+        posX += rightX * speed;
+        posZ += rightZ * speed;
         break;
     }
-    glutPostRedisplay();
 }
+
 
 void timer(int value) {
     glutPostRedisplay();           // 1. Redraw the screen
