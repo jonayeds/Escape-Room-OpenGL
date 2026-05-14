@@ -8,6 +8,8 @@
 
 #include "../draw/shapes.h"
 #include "../globals/globals.h"
+#include <iostream>
+using namespace std;
 
 void light()
 {
@@ -23,6 +25,63 @@ void light()
     glPopMatrix();
 }
 
+void drawText(float x, float y, float z, float size, const char *text)
+{
+    glPushMatrix();
+    glTranslatef(x, y, z);
+    glScalef(size, size, size);
+    glLineWidth(2);
+    while (*text)
+    {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *text);
+        text++;
+    }
+    glLineWidth(1.0f);
+    glPopMatrix();
+}
+
+void doorLock(){
+    glPushMatrix();
+    glColor3f(0.8, 0.8, 0.8);
+    glScalef(1,1,0.3);
+    Quads(-0.5, -0.5, 0);
+    glPopMatrix();  
+    
+    glPushMatrix();
+    glColor3f(0.3, 0.3, 0.3);
+    glTranslatef(0,0.15,0.15);
+    glScalef(0.4,0.2,0.4);
+    Quads(-0.5, -0.5, -0.5);
+    glPopMatrix();  
+    
+    glPushMatrix();
+    glColor3f(0.9, 0.9, 0.9);
+    glTranslatef(0,-0.25,0.15);
+    glScalef(0.8,0.4,0.4);
+    Quads(-0.5, -0.5, -0.5);
+    glPopMatrix();  
+    
+    glPushMatrix();
+    glColor3f(0,0,0);
+    drawText(-0.25, 0.3, 0.35, 0.0007, "Whats Next?");
+    glPopMatrix();
+    
+    glTranslatef(-0.35, -0.2, 0.35);
+    glPushMatrix();
+    glColor3f(0,0,0);
+    drawText(0.0, 0.0, 0.0, 0.0008, "1");
+    drawText(0.15, 0.0, 0.0, 0.0008, "2");
+    drawText(0.3, 0.0, 0.0, 0.0008, "3");
+    drawText(0.45, 0.0, 0.0, 0.0008, "4");
+    drawText(0.6, 0.0, 0.0, 0.0008, "5");
+    drawText(0.0, -0.2, 0.0, 0.0008, "6");
+    drawText(0.15, -0.2, 0.0, 0.0008, "7");
+    drawText(0.3, -0.2, 0.0, 0.0008, "8");
+    drawText(0.45, -0.2, 0.0, 0.0008, "9");
+    drawText(0.6, -0.2, 0.0, 0.0008, "0");
+    glPopMatrix();
+
+}
 
 void door(){
     glPushMatrix();
@@ -31,8 +90,13 @@ void door(){
     glTranslatef(2,0,0);
     glRotatef(doorAngle, 0, 1, 0); 
     glTranslatef(-2,0,0);
+
+    glPushMatrix();
     glScalef(4, 6, 0.3 );
     Quads(-0.5,-0.5,-0.5);
+    glPopMatrix();
+
+    doorLock();
 
     glPopMatrix();
 }

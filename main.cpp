@@ -85,6 +85,9 @@ void mouseMove(int x, int y)
     lookDirY = sin(radPitch);
     lookDirZ = sin(radYaw) * cos(radPitch);
 
+    // cout << "lookDirX: " << lookDirX << " lookDirY: " << lookDirY << " lookDirZ: " << lookDirZ << endl;
+    // cout << "posX: " << posX << " posY: " << posY << " posZ: " << posZ << endl;
+
     int padding = 50;
     if (x < padding || x > windowWidth - padding || y < padding || y > windowHeight - padding)
     {
