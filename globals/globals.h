@@ -1,6 +1,5 @@
 #pragma once
 
-// remove all assigned values
 extern float degreeX;
 extern float degreeY;
 extern float degreeZ;
@@ -9,7 +8,6 @@ extern float posX;
 extern float posZ;
 extern float posY;
 
-// The direction the camera is looking
 extern float lookDirX;
 extern float lookDirY;
 extern float lookDirZ;

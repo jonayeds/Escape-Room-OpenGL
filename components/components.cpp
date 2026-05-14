@@ -8,6 +8,7 @@
 
 #include "../draw/shapes.h"
 #include "../globals/globals.h"
+#include "../utils/utils.h"
 #include <iostream>
 using namespace std;
 
@@ -25,6 +26,8 @@ void light()
     glPopMatrix();
 }
 
+
+
 void drawText(float x, float y, float z, float size, const char *text)
 {
     glPushMatrix();
@@ -40,35 +43,36 @@ void drawText(float x, float y, float z, float size, const char *text)
     glPopMatrix();
 }
 
-void doorLock(){
+void doorLock()
+{
     glPushMatrix();
     glColor3f(0.8, 0.8, 0.8);
-    glScalef(1,1,0.3);
+    glScalef(1, 1, 0.3);
     Quads(-0.5, -0.5, 0);
-    glPopMatrix();  
-    
+    glPopMatrix();
+
     glPushMatrix();
     glColor3f(0.3, 0.3, 0.3);
-    glTranslatef(0,0.15,0.15);
-    glScalef(0.4,0.2,0.4);
+    glTranslatef(0, 0.15, 0.15);
+    glScalef(0.4, 0.2, 0.4);
     Quads(-0.5, -0.5, -0.5);
-    glPopMatrix();  
-    
+    glPopMatrix();
+
     glPushMatrix();
     glColor3f(0.9, 0.9, 0.9);
-    glTranslatef(0,-0.25,0.15);
-    glScalef(0.8,0.4,0.4);
+    glTranslatef(0, -0.25, 0.15);
+    glScalef(0.8, 0.4, 0.4);
     Quads(-0.5, -0.5, -0.5);
-    glPopMatrix();  
-    
+    glPopMatrix();
+
     glPushMatrix();
-    glColor3f(0,0,0);
+    glColor3f(0, 0, 0);
     drawText(-0.25, 0.3, 0.35, 0.0007, "Whats Next?");
     glPopMatrix();
-    
+
     glTranslatef(-0.35, -0.2, 0.35);
     glPushMatrix();
-    glColor3f(0,0,0);
+    glColor3f(0, 0, 0);
     drawText(0.0, 0.0, 0.0, 0.0008, "1");
     drawText(0.15, 0.0, 0.0, 0.0008, "2");
     drawText(0.3, 0.0, 0.0, 0.0008, "3");
@@ -81,26 +85,28 @@ void doorLock(){
     drawText(0.6, -0.2, 0.0, 0.0008, "0");
     glPopMatrix();
 
+    // detectInteraction(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f);
 }
 
-void door(){
+void door()
+{
     glPushMatrix();
     glColor3f(0.516, 0.367, 0.254);
-    glTranslatef(0.25,0.5,-6.75);
-    glTranslatef(2,0,0);
-    glRotatef(doorAngle, 0, 1, 0); 
-    glTranslatef(-2,0,0);
+    glTranslatef(0.25, 0.5, -6.75);
+    glTranslatef(2, 0, 0);
+    glRotatef(doorAngle, 0, 1, 0);
+    glTranslatef(-2, 0, 0);
 
     glPushMatrix();
-    glScalef(4, 6, 0.3 );
-    Quads(-0.5,-0.5,-0.5);
+    glScalef(4, 6, 0.3);
+    Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
 
     doorLock();
 
     glPopMatrix();
+    // Quads(-0.5,-0.5,-6.5);
 }
-
 
 void Room()
 {
@@ -230,10 +236,5 @@ void Room()
     DrawGrid_XZ(15.0f, 15.0f);
     glPopMatrix();
 
-
     door();
-
-
-
 }
-

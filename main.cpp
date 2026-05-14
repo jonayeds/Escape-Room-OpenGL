@@ -11,9 +11,9 @@
 #include "draw/shapes.h"
 #include "globals/globals.h"
 #include "components/components.h"
+#include "utils/utils.h"
 
 using namespace std;
-
 
 
 void pointer()
@@ -48,8 +48,6 @@ void pointer()
 
     glMatrixMode(GL_MODELVIEW);
 }
-
-
 
 void mouseMove(int x, int y)
 {
@@ -118,14 +116,19 @@ static void display(void)
     gluLookAt(posX, posY, posZ,
               targetX, targetY, targetZ,
               0.0f, 1.0f, 0.0f);
-
+    drawDebugLaser();
+    drawDebugHitbox(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f);
+    glPushMatrix();
     glRotated(degreeX, 1.0, 0.0, 0.0);
     glRotated(degreeY, 0.0, 1.0, 0.0);
     glRotated(degreeZ, 0.0, 0.0, 1.0);
     glScalef(scale, scale, scale);
 
     Room();
+
     pointer();
+
+    glPopMatrix();
 
     glutSwapBuffers();
 }
@@ -194,7 +197,6 @@ static void key(unsigned char key, int x, int y)
     case 'o':
         doorAnimating = true;
         break;
-
     }
     glutPostRedisplay();
 }
@@ -239,7 +241,24 @@ void specialKey(int key, int x, int y)
     if (posX <= -2.5f) posX = -2.5f;
     if (posZ <= -2.5f) posZ = -2.5f;
     if (posZ >= 2.5f) posZ = 2.5f;
-    
+}
+
+void mouseClick(int button, int state, int x, int y) {
+    // Only trigger when the Left Mouse Button is pressed down
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+        
+        // Example: Let's say your door lock is a small box located at:
+        // X between 1.0 and 1.5
+        // Y between 2.0 and 2.5
+        // Z between -3.9 and -4.0 (on the back wall)
+        
+        if (detectInteraction(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f)) {
+            cout << "You clicked the door lock!" << endl;
+            // Trigger your door unlock logic here!
+        } else {
+            cout << "You clicked on empty space." << endl;
+        }
+    }
 }
 
 void timer(int value)
@@ -248,7 +267,7 @@ void timer(int value)
     {
         if (doorAngle > -60)
         {
-            doorAngle -= 5.0f; 
+            doorAngle -= 5.0f;
         }
         else
         {
@@ -256,7 +275,7 @@ void timer(int value)
         }
     }
 
-    glutPostRedisplay();         
+    glutPostRedisplay();
     glutTimerFunc(16, timer, 0); //  Wait 16ms, then run this function again
 }
 
@@ -307,7 +326,8 @@ int main(int argc, char *argv[])
     glShadeModel(GL_SMOOTH);
 
     glutPassiveMotionFunc(mouseMove);
-    glutSetCursor(GLUT_CURSOR_NONE);
+    glutMouseFunc(mouseClick);
+    glutSetCursor(GLUT_CURSOR_NONE); 
 
     glutMainLoop();
 
