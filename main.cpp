@@ -14,13 +14,48 @@
 
 using namespace std;
 
+void pointer()
+{
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(-1.0, 1.0, -1.0, 1.0);
 
-void mouseMove(int x, int y) {
-    if (x > windowWidth  || y > windowHeight || x < 0 || y < 0) {
-        return; 
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glBegin(GL_LINES);
+    glVertex2f(-0.1f, 0.0);
+    glVertex2f(0.1f, 0.0f);
+    glVertex2f(0.0f, -0.1f);
+    glVertex2f(0.0f, 0.1f);
+    glEnd();
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+
+    glPopMatrix();
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void mouseMove(int x, int y)
+{
+    if (x > windowWidth || y > windowHeight || x < 0 || y < 0)
+    {
+        return;
     }
 
-    if (lastMouseX == -1 || lastMouseY == -1) {
+    if (lastMouseX == -1 || lastMouseY == -1)
+    {
         lastMouseX = x;
         lastMouseY = y;
         return;
@@ -34,8 +69,10 @@ void mouseMove(int x, int y) {
     yaw = yaw + (dx * sensitivity);
     pitch = pitch + (dy * sensitivity);
 
-    if (pitch > 89.0f) pitch = 89.0f;
-    if (pitch < -89.0f) pitch = -89.0f;
+    if (pitch > 89.0f)
+        pitch = 89.0f;
+    if (pitch < -89.0f)
+        pitch = -89.0f;
 
     float radYaw = yaw * (3.14159f / 180.0f);
     float radPitch = pitch * (3.14159f / 180.0f);
@@ -45,10 +82,11 @@ void mouseMove(int x, int y) {
     lookDirZ = sin(radYaw) * cos(radPitch);
 
     int padding = 50;
-    if (x < padding || x > windowWidth - padding || y < padding || y > windowHeight - padding) {
+    if (x < padding || x > windowWidth - padding || y < padding || y > windowHeight - padding)
+    {
         int centerX = windowWidth / 2;
         int centerY = windowHeight / 2;
-        
+
         lastMouseX = centerX;
         lastMouseY = centerY;
 
@@ -62,22 +100,17 @@ static void display(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // In your display() function:
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    // Calculate where the camera is looking by adding the direction to the position
     float targetX = posX + lookDirX;
     float targetY = posY + lookDirY;
     float targetZ = posZ + lookDirZ;
 
     // Apply the camera
-    gluLookAt(posX, posY, posZ,          
-              targetX, targetY, targetZ, 
-              0.0f, 1.0f, 0.0f);         
-
-    // glTranslatef(posX, posY, posZ);
-    // glTranslatef(0, 0, 13);
+    gluLookAt(posX, posY, posZ,
+              targetX, targetY, targetZ,
+              0.0f, 1.0f, 0.0f);
 
     glRotated(degreeX, 1.0, 0.0, 0.0);
     glRotated(degreeY, 0.0, 1.0, 0.0);
@@ -85,6 +118,7 @@ static void display(void)
     glScalef(scale, scale, scale);
 
     Room();
+    pointer();
 
     glutSwapBuffers();
 }
@@ -114,27 +148,27 @@ static void key(unsigned char key, int x, int y)
         exit(0);
         break;
 
-    case 'a':
+    case 'x':
         degreeX += 2.5;
         break;
 
-    case 'b':
+    case 'X':
         degreeX -= 2.5;
         break;
 
-    case 'c':
+    case 'y':
         degreeY += 2.5;
         break;
 
-    case 'd':
+    case 'Y':
         degreeY -= 2.5;
         break;
 
-    case 'e':
+    case 'z':
         degreeZ += 2.5;
         break;
 
-    case 'f':
+    case 'Z':
         degreeZ -= 2.5;
         break;
 
@@ -155,6 +189,7 @@ static void key(unsigned char key, int x, int y)
 
 void specialKey(int key, int x, int y)
 {
+
     float speed = 0.5f;
 
     float radYaw = yaw * (3.14159f / 180.0f);
@@ -187,24 +222,33 @@ void specialKey(int key, int x, int y)
         posZ += rightZ * speed;
         break;
     }
+
+    if (posX >= 2.5f) posX = 2.5f;
+    if (posX <= -2.5f) posX = -2.5f;
+    if (posZ <= -2.5f) posZ = -2.5f;
+    if (posZ >= 2.5f) posZ = 2.5f;
+    
+
+    cout << " position: (" << posX << ", " << posY << ", " << posZ << ")" << endl;
 }
 
-
-void timer(int value) {
-    glutPostRedisplay();           // 1. Redraw the screen
-    glutTimerFunc(16, timer, 0);   // 2. Wait 16ms, then run this function again
+void timer(int value)
+{
+    glutPostRedisplay();         // 1. Redraw the screen
+    glutTimerFunc(16, timer, 0); // 2. Wait 16ms, then run this function again
 }
 
 int main(int argc, char *argv[])
 {
 
     cout << "------------- Keyboard Input -------------" << endl;
-    cout << "a: Rotate X-axis +2.5 degree" << endl;
-    cout << "b: Rotate X-axis -2.5 degree" << endl;
-    cout << "c: Rotate Y-axis +2.5 degree" << endl;
-    cout << "d: Rotate Y-axis -2.5 degree" << endl;
+    cout << "x: Rotate X-axis +2.5 degree" << endl;
+    cout << "X: Rotate X-axis -2.5 degree" << endl;
+    cout << "y: Rotate Y-axis +2.5 degree" << endl;
+    cout << "Y: Rotate Y-axis -2.5 degree" << endl;
+    cout << "z: Rotate Y-axis +2.5 degree" << endl;
     cout << "e: Rotate Z-axis +2.5 degree" << endl;
-    cout << "f: Rotate Z-axis -2.5 degree" << endl;
+    cout << "Z: Rotate Z-axis -2.5 degree" << endl;
     cout << "m: Scale up +0.05" << endl;
     cout << "n: Scale down -0.05" << endl;
     cout << "up/down arrow: Move up/down" << endl;
@@ -217,7 +261,7 @@ int main(int argc, char *argv[])
     glutInitWindowPosition(10, 10);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glutCreateWindow("2023000000202");
+    glutCreateWindow("Escape Room");
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
@@ -234,7 +278,7 @@ int main(int argc, char *argv[])
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
+    // glEnable(GL_LIGHT1);
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
