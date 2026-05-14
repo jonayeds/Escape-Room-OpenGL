@@ -23,3 +23,6 @@ int mouseX = 0;
 int mouseY = 0;
 int lastMouseX = -1;
 int lastMouseY = -1;     
+
+float doorAngle = 0.0f;
+bool doorAnimating = false;

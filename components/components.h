@@ -2,3 +2,4 @@
 
 void light();
 void Room();
+void door();

@@ -14,6 +14,8 @@
 
 using namespace std;
 
+
+
 void pointer()
 {
     glMatrixMode(GL_PROJECTION);
@@ -46,6 +48,8 @@ void pointer()
 
     glMatrixMode(GL_MODELVIEW);
 }
+
+
 
 void mouseMove(int x, int y)
 {
@@ -183,6 +187,11 @@ static void key(unsigned char key, int x, int y)
         {
             scale -= 0.05;
         }
+        break;
+    case 'o':
+        doorAnimating = true;
+        break;
+
     }
     glutPostRedisplay();
 }
@@ -228,14 +237,24 @@ void specialKey(int key, int x, int y)
     if (posZ <= -2.5f) posZ = -2.5f;
     if (posZ >= 2.5f) posZ = 2.5f;
     
-
-    cout << " position: (" << posX << ", " << posY << ", " << posZ << ")" << endl;
 }
 
 void timer(int value)
 {
-    glutPostRedisplay();         // 1. Redraw the screen
-    glutTimerFunc(16, timer, 0); // 2. Wait 16ms, then run this function again
+    if (doorAnimating)
+    {
+        if (doorAngle > -60)
+        {
+            doorAngle -= 5.0f; 
+        }
+        else
+        {
+            doorAnimating = false;
+        }
+    }
+
+    glutPostRedisplay();         
+    glutTimerFunc(16, timer, 0); //  Wait 16ms, then run this function again
 }
 
 int main(int argc, char *argv[])

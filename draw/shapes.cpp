@@ -16,8 +16,7 @@ void Quads(float x, float y, float z)
     float max_x = x + 1.0f;
     float max_y = y + 1.0f;
     float max_z = z + 1.0f;
-
-    // glColor3f(1.0f, 1.0f, 1.0f);
+    
     glNormal3f(0.0f, 0.0f, -1.0f);
     glVertex3f(x, max_y, z);
     glVertex3f(max_x, max_y, z);

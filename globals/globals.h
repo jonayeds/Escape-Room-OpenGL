@@ -23,4 +23,7 @@ extern int windowHeight;
 extern int mouseX;
 extern int mouseY;
 extern int lastMouseX;
-extern int lastMouseY;     
+extern int lastMouseY;    
+
+extern float doorAngle;
+extern bool doorAnimating;

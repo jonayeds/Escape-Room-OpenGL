@@ -7,6 +7,7 @@
 #endif
 
 #include "../draw/shapes.h"
+#include "../globals/globals.h"
 
 void light()
 {
@@ -21,6 +22,21 @@ void light()
     glEnable(GL_LIGHTING);
     glPopMatrix();
 }
+
+
+void door(){
+    glPushMatrix();
+    glColor3f(0.516, 0.367, 0.254);
+    glTranslatef(0.25,0.5,-6.75);
+    glTranslatef(2,0,0);
+    glRotatef(doorAngle, 0, 1, 0); 
+    glTranslatef(-2,0,0);
+    glScalef(4, 6, 0.3 );
+    Quads(-0.5,-0.5,-0.5);
+
+    glPopMatrix();
+}
+
 
 void Room()
 {
@@ -144,9 +160,16 @@ void Room()
     Quads(-0.5, -0.5, -0.5);
     glPopMatrix();
 
-    // rojof
+    // roof
     glPushMatrix();
     glTranslatef(0, 3.5, 0);
     DrawGrid_XZ(15.0f, 15.0f);
     glPopMatrix();
+
+
+    door();
+
+
+
 }
+
