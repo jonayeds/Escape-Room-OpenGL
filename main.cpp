@@ -218,6 +218,18 @@ static void key(unsigned char key, int x, int y)
         doorAnimating = true;
         break;
     }
+
+    if(selectedComponent == doorLockId && key >= '0' && key <= '9' && inputCode.size() < doorCode.size()){
+        inputCode += key;
+        if(inputCode == doorCode){
+            cout << "Door Unlocked!" << endl;
+            selectedComponent = -1;
+            doorAnimating = true;
+        } else if (inputCode.size() == doorCode.size()){
+            cout << "Wrong Code. Try Again." << endl;
+            inputCode = "";
+        }
+    }
     glutPostRedisplay();
 }
 

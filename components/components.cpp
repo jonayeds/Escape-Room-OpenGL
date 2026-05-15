@@ -69,7 +69,12 @@ void doorLock()
 
     glPushMatrix();
     glColor3f(0, 0, 0);
-    drawText(-0.25, 0.3, 0.35, 0.0007, "Whats Next?");
+    drawText(-0.25, 0.3, 0.35, 0.0007, "Next Number");
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(1, 1, 1);
+    drawText(-0.15, 0.1, 0.45, 0.0007, inputCode.c_str());
     glPopMatrix();
 
     glTranslatef(-0.35, -0.2, 0.36);

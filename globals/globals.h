@@ -1,5 +1,9 @@
 #pragma once
 
+#include <iostream>
+using namespace std;
+
+
 extern float degreeX;
 extern float degreeY;
 extern float degreeZ;
@@ -28,3 +32,5 @@ extern bool doorAnimating;
 
 extern int selectedComponent;
 extern int doorLockId;
+extern string doorCode;
+extern string inputCode;

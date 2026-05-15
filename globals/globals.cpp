@@ -1,5 +1,6 @@
 #include "globals.h"
-
+#include <iostream>
+using namespace std;
 float degreeX = 0;
 float degreeY = 0;
 float degreeZ = 0;
@@ -29,3 +30,5 @@ bool doorAnimating = false;
 
 int selectedComponent = -1;
 int doorLockId = 0;
+string doorCode = "1234";
+string inputCode = "";     
