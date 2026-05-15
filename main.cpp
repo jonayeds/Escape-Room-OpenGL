@@ -15,7 +15,6 @@
 
 using namespace std;
 
-
 void pointer()
 {
     glMatrixMode(GL_PROJECTION);
@@ -98,37 +97,58 @@ void mouseMove(int x, int y)
         glutWarpPointer(centerX, centerY);
     }
 }
-
 static void display(void)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    if (selectedComponent == -1) 
+    {
+        // ==========================================
+        // MODE 1: NORMAL ROOM VIEW
+        // ==========================================
+        float targetX = posX + lookDirX;
+        float targetY = posY + lookDirY;
+        float targetZ = posZ + lookDirZ;
 
-    float targetX = posX + lookDirX;
-    float targetY = posY + lookDirY;
-    float targetZ = posZ + lookDirZ;
+        gluLookAt(posX, posY, posZ, targetX, targetY, targetZ, 0.0f, 1.0f, 0.0f);
 
-    // Apply the camera
-    gluLookAt(posX, posY, posZ,
-              targetX, targetY, targetZ,
-              0.0f, 1.0f, 0.0f);
-    drawDebugLaser();
-    drawDebugHitbox(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f);
-    glPushMatrix();
-    glRotated(degreeX, 1.0, 0.0, 0.0);
-    glRotated(degreeY, 0.0, 1.0, 0.0);
-    glRotated(degreeZ, 0.0, 0.0, 1.0);
-    glScalef(scale, scale, scale);
+        // test
+        drawDebugLaser();
+        drawDebugHitbox(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f); 
 
-    Room();
-
+        glPushMatrix();
+            glRotated(degreeX, 1.0, 0.0, 0.0);
+            glRotated(degreeY, 0.0, 1.0, 0.0);
+            glRotated(degreeZ, 0.0, 0.0, 1.0);
+            glScalef(scale, scale, scale);
+            Room();
+        glPopMatrix();
+        
     pointer();
+    } 
+    else 
+    {
+        // ==========================================
+        // MODE 2: INSPECT COMPONENT VIEW
+        // ==========================================
+        // Place a static camera looking straight at the origin (0,0,0)
+        // We put the camera at Z=2.5 so the object fits nicely on screen.
+        gluLookAt(0.0f, 0.0f, 2.5f, 
+                  0.0f, 0.0f, 0.0f, 
+                  0.0f, 1.0f, 0.0f);
 
-    glPopMatrix();
+        GLfloat light_position[] = {1.0f, 1.0f, 2.0f, 1.0f};
+        glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+        if (selectedComponent == doorLockId)
+        {
+            doorLock();
+        }
+    }
+
+    
 
     glutSwapBuffers();
 }
@@ -237,25 +257,36 @@ void specialKey(int key, int x, int y)
         break;
     }
 
-    if (posX >= 2.5f) posX = 2.5f;
-    if (posX <= -2.5f) posX = -2.5f;
-    if (posZ <= -2.5f) posZ = -2.5f;
-    if (posZ >= 2.5f) posZ = 2.5f;
+    if (posX >= 2.5f)
+        posX = 2.5f;
+    if (posX <= -2.5f)
+        posX = -2.5f;
+    if (posZ <= -2.5f)
+        posZ = -2.5f;
+    if (posZ >= 2.5f)
+        posZ = 2.5f;
 }
 
-void mouseClick(int button, int state, int x, int y) {
+void mouseClick(int button, int state, int x, int y)
+{
     // Only trigger when the Left Mouse Button is pressed down
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        
-        // Example: Let's say your door lock is a small box located at:
-        // X between 1.0 and 1.5
-        // Y between 2.0 and 2.5
-        // Z between -3.9 and -4.0 (on the back wall)
-        
-        if (detectInteraction(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f)) {
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+    {
+            if (selectedComponent != -1) {
+            selectedComponent = -1;
+            cout << "Returned to room." << endl;
+            glutPostRedisplay(); // Force screen update
+            return; 
+        }
+
+        if (detectInteraction(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f))
+        {
             cout << "You clicked the door lock!" << endl;
-            // Trigger your door unlock logic here!
-        } else {
+            selectedComponent = doorLockId;
+        }
+        else
+        {
+            selectedComponent = -1;
             cout << "You clicked on empty space." << endl;
         }
     }
@@ -327,7 +358,7 @@ int main(int argc, char *argv[])
 
     glutPassiveMotionFunc(mouseMove);
     glutMouseFunc(mouseClick);
-    glutSetCursor(GLUT_CURSOR_NONE); 
+    glutSetCursor(GLUT_CURSOR_NONE);
 
     glutMainLoop();
 

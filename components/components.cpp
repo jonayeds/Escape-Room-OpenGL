@@ -31,6 +31,7 @@ void light()
 void drawText(float x, float y, float z, float size, const char *text)
 {
     glPushMatrix();
+    glDisable(GL_LIGHTING);
     glTranslatef(x, y, z);
     glScalef(size, size, size);
     glLineWidth(2);
@@ -40,6 +41,7 @@ void drawText(float x, float y, float z, float size, const char *text)
         text++;
     }
     glLineWidth(1.0f);
+    glEnable(GL_LIGHTING);
     glPopMatrix();
 }
 
@@ -70,7 +72,7 @@ void doorLock()
     drawText(-0.25, 0.3, 0.35, 0.0007, "Whats Next?");
     glPopMatrix();
 
-    glTranslatef(-0.35, -0.2, 0.35);
+    glTranslatef(-0.35, -0.2, 0.36);
     glPushMatrix();
     glColor3f(0, 0, 0);
     drawText(0.0, 0.0, 0.0, 0.0008, "1");
@@ -84,8 +86,6 @@ void doorLock()
     drawText(0.45, -0.2, 0.0, 0.0008, "9");
     drawText(0.6, -0.2, 0.0, 0.0008, "0");
     glPopMatrix();
-
-    // detectInteraction(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f);
 }
 
 void door()

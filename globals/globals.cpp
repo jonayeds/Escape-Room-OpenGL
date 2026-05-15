@@ -26,3 +26,6 @@ int lastMouseY = -1;
 
 float doorAngle = 0.0f;
 bool doorAnimating = false;
+
+int selectedComponent = -1;
+int doorLockId = 0;

@@ -25,3 +25,6 @@ extern int lastMouseY;
 
 extern float doorAngle;
 extern bool doorAnimating;
+
+extern int selectedComponent;
+extern int doorLockId;
