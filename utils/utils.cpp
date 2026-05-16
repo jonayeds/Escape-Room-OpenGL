@@ -13,7 +13,7 @@ using namespace std;
 
 bool detectInteraction(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
 {
-    float maxReach = 2.0f;
+    float maxReach = 3.5f;
     float stepSize = 0.1f;
 
     for (float t = 0.0f; t < maxReach; t += stepSize)

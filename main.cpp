@@ -116,13 +116,12 @@ static void display(void)
 
         // test
         drawDebugLaser();
-        drawDebugHitbox(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f); 
+        drawDebugHitbox(doorPosition.minX, doorPosition.maxX, doorPosition.minY, doorPosition.maxY, doorPosition.minZ, doorPosition.maxZ); 
 
         glPushMatrix();
-            glRotated(degreeX, 1.0, 0.0, 0.0);
-            glRotated(degreeY, 0.0, 1.0, 0.0);
-            glRotated(degreeZ, 0.0, 0.0, 1.0);
-            glScalef(scale, scale, scale);
+            // glRotated(degreeX, 1.0, 0.0, 0.0);
+            // glRotated(degreeY, 0.0, 1.0, 0.0);
+            // glRotated(degreeZ, 0.0, 0.0, 1.0);
             Room();
         glPopMatrix();
         
@@ -141,6 +140,10 @@ static void display(void)
 
         GLfloat light_position[] = {1.0f, 1.0f, 2.0f, 1.0f};
         glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+        glRotated(degreeX, 1.0, 0.0, 0.0);
+            glRotated(degreeY, 0.0, 1.0, 0.0);
+            glRotated(degreeZ, 0.0, 0.0, 1.0);
 
         if (selectedComponent == doorLockId)
         {
@@ -269,29 +272,29 @@ void specialKey(int key, int x, int y)
         break;
     }
 
-    if (posX >= 2.5f)
-        posX = 2.5f;
-    if (posX <= -2.5f)
-        posX = -2.5f;
-    if (posZ <= -2.5f)
-        posZ = -2.5f;
-    if (posZ >= 2.5f)
-        posZ = 2.5f;
+    if (posX >= 4.0f)
+        posX = 4.0f;
+    if (posX <= -4.0f)
+        posX = -4.0f;
+    if (posZ <= -4.0f)
+        posZ = -4.0f;
+    if (posZ >= 4.0f)
+        posZ = 4.0;
 }
 
 void mouseClick(int button, int state, int x, int y)
 {
-    // Only trigger when the Left Mouse Button is pressed down
+    
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
     {
             if (selectedComponent != -1) {
             selectedComponent = -1;
             cout << "Returned to room." << endl;
-            glutPostRedisplay(); // Force screen update
+            glutPostRedisplay();
             return; 
         }
 
-        if (detectInteraction(-0.2f, 0.5f, 0.0f, 0.6f, -3.5f, -3.2f))
+        if (detectInteraction(doorPosition.minX, doorPosition.maxX, doorPosition.minY, doorPosition.maxY, doorPosition.minZ, doorPosition.maxZ))
         {
             cout << "You clicked the door lock!" << endl;
             selectedComponent = doorLockId;

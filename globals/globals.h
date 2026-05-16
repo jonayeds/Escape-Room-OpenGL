@@ -34,3 +34,14 @@ extern int selectedComponent;
 extern int doorLockId;
 extern string doorCode;
 extern string inputCode;
+
+struct ComponentPosition{
+    float minX;
+    float maxX;
+    float minY;
+    float maxY;
+    float minZ;
+    float maxZ;
+};
+
+extern ComponentPosition doorPosition;
