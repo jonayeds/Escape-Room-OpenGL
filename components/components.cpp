@@ -33,10 +33,10 @@ void light()
 
 void table(){
     glBindTexture(GL_TEXTURE_2D, woodTex);
+    glColor3f(0.8, 0.8, 0.8);
     glPushMatrix();
     glTranslatef(3.5, -1, 4);
     glScalef(0.6,0.5,0.5);
-    glColor3f(1, 1, 1);
     glPushMatrix();
     glScalef(4,0.25,3);
     Quads(0,0,0);

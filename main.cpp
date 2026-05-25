@@ -17,8 +17,6 @@
 
 using namespace std;
 
-
-
 void pointer()
 {
     glMatrixMode(GL_PROJECTION);
@@ -107,7 +105,7 @@ static void display(void)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    if (selectedComponent == -1) 
+    if (selectedComponent == -1)
     {
         // ==========================================
         // MODE 1: NORMAL ROOM VIEW
@@ -120,42 +118,44 @@ static void display(void)
 
         // test
         // drawDebugLaser();
-        // drawDebugHitbox(doorPosition.minX, doorPosition.maxX, doorPosition.minY, doorPosition.maxY, doorPosition.minZ, doorPosition.maxZ); 
+        // drawDebugHitbox(tablePosition.minX, tablePosition.maxX, tablePosition.minY, tablePosition.maxY, tablePosition.minZ, tablePosition.maxZ);
 
         glPushMatrix();
-            // glRotated(degreeX, 1.0, 0.0, 0.0);
-            // glRotated(degreeY, 0.0, 1.0, 0.0);
-            // glRotated(degreeZ, 0.0, 0.0, 1.0);
-            Room();
+        Room();
         glPopMatrix();
-        
-    pointer();
-    } 
-    else 
+
+        pointer();
+    }
+    else
     {
         // ==========================================
         // MODE 2: INSPECT COMPONENT VIEW
         // ==========================================
-        // Place a static camera looking straight at the origin (0,0,0)
-        // We put the camera at Z=2.5 so the object fits nicely on screen.
-        gluLookAt(0.0f, 0.0f, 2.5f, 
-                  0.0f, 0.0f, 0.0f, 
+        gluLookAt(0.0f, 0.0f, 2.5f,
+                  0.0f, 0.0f, 0.0f,
                   0.0f, 1.0f, 0.0f);
 
         GLfloat light_position[] = {1.0f, 1.0f, 2.0f, 1.0f};
         glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 
         glRotated(degreeX, 1.0, 0.0, 0.0);
-            glRotated(degreeY, 0.0, 1.0, 0.0);
-            glRotated(degreeZ, 0.0, 0.0, 1.0);
+        glRotated(degreeY, 0.0, 1.0, 0.0);
+        glRotated(degreeZ, 0.0, 0.0, 1.0);
 
         if (selectedComponent == doorLockId)
         {
             doorLock();
         }
+        else if (selectedComponent == tableId)
+        {
+            glEnable(GL_TEXTURE_2D);
+            glScalef(0.5, 0.5, 0.5);
+            glTranslatef(-3.5, 1, -4);
+            glTranslatef(-1.25, 0.5, -0.75);
+            table();
+            glDisable(GL_TEXTURE_2D);
+        }
     }
-
-    
 
     glutSwapBuffers();
 }
@@ -226,13 +226,17 @@ static void key(unsigned char key, int x, int y)
         break;
     }
 
-    if(selectedComponent == doorLockId && key >= '0' && key <= '9' && inputCode.size() < doorCode.size()){
+    if (selectedComponent == doorLockId && key >= '0' && key <= '9' && inputCode.size() < doorCode.size())
+    {
         inputCode += key;
-        if(inputCode == doorCode){
+        if (inputCode == doorCode)
+        {
             cout << "Door Unlocked!" << endl;
             selectedComponent = -1;
             doorAnimating = true;
-        } else if (inputCode.size() == doorCode.size()){
+        }
+        else if (inputCode.size() == doorCode.size())
+        {
             cout << "Wrong Code. Try Again." << endl;
             inputCode = "";
         }
@@ -288,14 +292,18 @@ void specialKey(int key, int x, int y)
 
 void mouseClick(int button, int state, int x, int y)
 {
-    
+
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
     {
-            if (selectedComponent != -1) {
+        if (selectedComponent != -1)
+        {
             selectedComponent = -1;
+            degreeX = 0;
+            degreeY = 0;
+            degreeZ = 0;
             cout << "Returned to room." << endl;
             glutPostRedisplay();
-            return; 
+            return;
         }
 
         if (detectInteraction(doorPosition.minX, doorPosition.maxX, doorPosition.minY, doorPosition.maxY, doorPosition.minZ, doorPosition.maxZ))
@@ -303,6 +311,12 @@ void mouseClick(int button, int state, int x, int y)
             cout << "You clicked the door lock!" << endl;
             selectedComponent = doorLockId;
         }
+        else if (detectInteraction(tablePosition.minX, tablePosition.maxX, tablePosition.minY, tablePosition.maxY, tablePosition.minZ, tablePosition.maxZ))
+        {
+            cout << "You clicked the door lock!" << endl;
+            selectedComponent = tableId;
+        }
+
         else
         {
             selectedComponent = -1;
@@ -329,20 +343,24 @@ void timer(int value)
     glutTimerFunc(16, timer, 0); //  Wait 16ms, then run this function again
 }
 
-unsigned int loadTexture(const char* path) {
+unsigned int loadTexture(const char *path)
+{
     unsigned int textureID;
     glGenTextures(1, &textureID);
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true);
     unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
-    if (data) {
+    if (data)
+    {
         GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
         glBindTexture(GL_TEXTURE_2D, textureID);
         gluBuild2DMipmaps(GL_TEXTURE_2D, format, width, height, format, GL_UNSIGNED_BYTE, data);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         stbi_image_free(data);
-    } else {
+    }
+    else
+    {
         std::cout << "Texture failed to load at path: " << path << std::endl;
     }
     return textureID;

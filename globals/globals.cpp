@@ -30,6 +30,7 @@ bool doorAnimating = false;
 
 int selectedComponent = -1;
 int doorLockId = 0;
+int tableId = 1;
 string doorCode = "1234";
 string inputCode = "";   
 
@@ -38,4 +39,5 @@ unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex;
 
 // components positions
 ComponentPosition doorPosition = {-0.3f, 0.8f, 0.0f, 1.0f, -6.5f, -6.3f};
+ComponentPosition tablePosition = {3.5, 5.95f, -2.5f, -0.85f, 4.0f, 5.5f};
 

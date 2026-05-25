@@ -32,6 +32,7 @@ extern bool doorAnimating;
 
 extern int selectedComponent;
 extern int doorLockId;
+extern int tableId;
 extern string doorCode;
 extern string inputCode;
 
@@ -47,3 +48,4 @@ struct ComponentPosition{
 extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex;
 
 extern ComponentPosition doorPosition;
+extern ComponentPosition tablePosition;
