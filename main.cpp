@@ -12,8 +12,12 @@
 #include "globals/globals.h"
 #include "components/components.h"
 #include "utils/utils.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include "libraries/stb_image.h"
 
 using namespace std;
+
+
 
 void pointer()
 {
@@ -115,8 +119,8 @@ static void display(void)
         gluLookAt(posX, posY, posZ, targetX, targetY, targetZ, 0.0f, 1.0f, 0.0f);
 
         // test
-        drawDebugLaser();
-        drawDebugHitbox(doorPosition.minX, doorPosition.maxX, doorPosition.minY, doorPosition.maxY, doorPosition.minZ, doorPosition.maxZ); 
+        // drawDebugLaser();
+        // drawDebugHitbox(doorPosition.minX, doorPosition.maxX, doorPosition.minY, doorPosition.maxY, doorPosition.minZ, doorPosition.maxZ); 
 
         glPushMatrix();
             // glRotated(degreeX, 1.0, 0.0, 0.0);
@@ -325,6 +329,25 @@ void timer(int value)
     glutTimerFunc(16, timer, 0); //  Wait 16ms, then run this function again
 }
 
+unsigned int loadTexture(const char* path) {
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+    int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
+    unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
+    if (data) {
+        GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        gluBuild2DMipmaps(GL_TEXTURE_2D, format, width, height, format, GL_UNSIGNED_BYTE, data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        stbi_image_free(data);
+    } else {
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+    }
+    return textureID;
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -374,6 +397,15 @@ int main(int argc, char *argv[])
     glutPassiveMotionFunc(mouseMove);
     glutMouseFunc(mouseClick);
     glutSetCursor(GLUT_CURSOR_NONE);
+
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    woodTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/wood.jpg");
+    brickTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/brick.jpg");
+    sceneryTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/images.jpg");
+    doorTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/door.png");
+    metalTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/metal.png");
+    concreteTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/concrete.png");
 
     glutMainLoop();
 

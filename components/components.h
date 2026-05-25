@@ -3,4 +3,5 @@
 void light();
 void Room();
 void door();
-void doorLock();        
+void doorLock();     
+void table();   

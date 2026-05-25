@@ -16,41 +16,65 @@ void Quads(float x, float y, float z)
     float max_x = x + 1.0f;
     float max_y = y + 1.0f;
     float max_z = z + 1.0f;
-    
+
     glNormal3f(0.0f, 0.0f, -1.0f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(x, max_y, z);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(max_x, max_y, z);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(max_x, y, z);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(x, y, z);
 
     glNormal3f(-1.0f, 0.0f, 0.0f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(x, max_y, max_z);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(x, max_y, z);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(x, y, z);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(x, y, max_z);
 
     glNormal3f(0.0f, 0.0f, 1.0f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(max_x, max_y, max_z);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(x, max_y, max_z);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(x, y, max_z);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(max_x, y, max_z);
 
     glNormal3f(1.0f, 0.0f, 0.0f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(max_x, max_y, z);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(max_x, max_y, max_z);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(max_x, y, max_z);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(max_x, y, z);
 
     glNormal3f(0.0f, -1.0f, 0.0f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(max_x, y, max_z);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(x, y, max_z);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(x, y, z);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(max_x, y, z);
 
     glNormal3f(0.0f, 1.0f, 0.0f);
+    glTexCoord2f(0.0f, 1.0f);
     glVertex3f(max_x, max_y, z);
+    glTexCoord2f(1.0f, 1.0f);
     glVertex3f(x, max_y, z);
+    glTexCoord2f(1.0f, 0.0f);
     glVertex3f(x, max_y, max_z);
+    glTexCoord2f(0.0f, 0.0f);
     glVertex3f(max_x, max_y, max_z);
 
     glEnd();
@@ -103,4 +127,3 @@ void DrawGrid_YZ(float height, float depth)
         }
     }
 }
-
