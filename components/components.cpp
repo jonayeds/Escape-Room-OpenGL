@@ -30,6 +30,26 @@ void light()
     glPopMatrix();
 }
 
+void book(){
+    glPushMatrix();
+    glPushMatrix();
+    glTranslatef(-0.1,0.015,0);
+    glColor3f(1,0,0);
+    cylinder(0.165, 1);
+    glPopMatrix();
+    glColor3f(1,1,1);
+    glScalef(1, 0.3, 1.01); 
+    glTranslatef(-0.1,0,0);
+    Quads(0,-0.5,-0.5);
+    glScalef(1.1,0.1,1.01);
+    glColor3f(1,0,0);
+    Quads(0,5,-0.5);
+    Quads(0,-5,-0.5);
+
+    glPopMatrix();
+    
+}
+
 
 void table(){
     glBindTexture(GL_TEXTURE_2D, woodTex);
@@ -308,5 +328,9 @@ void Room()
     
     door();
     table();
+    book(); 
     glDisable(GL_TEXTURE_2D);   
+
+
+    
 }

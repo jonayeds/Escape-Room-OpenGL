@@ -127,3 +127,58 @@ void DrawGrid_YZ(float height, float depth)
         }
     }
 }
+
+void circle(float z, float radius, bool is_top)
+{
+    glBegin(GL_POLYGON);
+    glNormal3f(0, 0, is_top ? -1 : 1);
+
+    if (is_top)
+    {
+        for (int i = 359; i >= 0; i--)
+        {
+            float theta = 2 * 3.1416f * i / 360;
+            float x = cos(theta);
+            float y = sin(theta);
+            glTexCoord2f(x * 0.5f + 0.5f, y * 0.5f + 0.5f   );
+            glVertex3f(x * radius, y * radius, z);
+        }
+    }
+    else
+    {
+        for (int i = 0; i < 360; i++)
+        {
+            float theta = 2 * 3.1416f * i / 360;
+            float x = cos(theta);
+            float y = sin(theta);
+            glTexCoord2f(x * 0.5f + 0.5f, y * 0.5f + 0.5f   );
+            glVertex3f(x * radius, y * radius, z);
+        }
+    }
+
+    glEnd();
+}
+
+
+void cylinder(float radius, float height)
+{
+    glPushMatrix();
+
+    float half_height = height * 0.5f;
+    circle(-half_height, radius, true);
+    circle(half_height, radius, false);
+    glBegin(GL_QUAD_STRIP);
+    for (int i = 0; i <= 360; i++)
+    {
+        float theta = 2 * 3.1416f * i / 360;
+        float x = cos(theta);
+        float y = sin(theta);
+        glNormal3f(x, y, 0);
+        glTexCoord2f(i / 360.0f, 1.0f);
+        glVertex3f(x * radius, y * radius, half_height);
+        glTexCoord2f(i / 360.0f , 0);
+        glVertex3f(x * radius, y * radius, -half_height);
+    }
+    glEnd();
+    glPopMatrix();
+}
