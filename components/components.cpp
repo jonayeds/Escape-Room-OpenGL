@@ -37,15 +37,15 @@ void book(){
     glScalef(0.5, 0.5, 0.5);
     glPushMatrix();
     glTranslatef(-0.1,0.015,0);
-    glColor3f(1,0,0);
+    glColor3f(0.796,0.76,0.745);
     cylinder(0.165, 1);
     glPopMatrix();
-    glColor3f(1,1,1);
     glScalef(1, 0.3, 1.01); 
     glTranslatef(-0.1,0,0);
+    glColor3f(0.9, 0.9, 0.9);
     Quads(0,-0.5,-0.5);
     glScalef(1.1,0.1,1.01);
-    glColor3f(1,0,0);
+    glBindTexture(GL_TEXTURE_2D, bookCoverTex);
     Quads(0,5,-0.5);
     Quads(0,-5.001,-0.5);
 

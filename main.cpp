@@ -437,6 +437,7 @@ int main(int argc, char *argv[])
     metalTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/metal.png");
     concreteTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/concrete.png");
     bookPagesTex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/book_pages.png");
+    bookCoverTex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/book_cover.png");
 
     glutMainLoop();
 

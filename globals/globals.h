@@ -46,7 +46,7 @@ struct ComponentPosition{
     float maxZ;
 };
 
-extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex;
+extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex;
 
 extern ComponentPosition doorPosition;
 extern ComponentPosition tablePosition;
