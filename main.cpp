@@ -118,7 +118,7 @@ static void display(void)
 
         // test
         // drawDebugLaser();
-        // drawDebugHitbox(tablePosition.minX, tablePosition.maxX, tablePosition.minY, tablePosition.maxY, tablePosition.minZ, tablePosition.maxZ);
+        // drawDebugHitbox(bookPosition);
 
         glPushMatrix();
         Room();
@@ -153,6 +153,13 @@ static void display(void)
             glTranslatef(-3.5, 1, -4);
             glTranslatef(-1.25, 0.5, -0.75);
             table();
+            glDisable(GL_TEXTURE_2D);
+        }
+        else if (selectedComponent == bookId){
+            glEnable(GL_TEXTURE_2D);
+            glScalef(1.5,1.5,1.5);  
+            glTranslatef(-4.8, 0.7, -4.5);
+            book();
             glDisable(GL_TEXTURE_2D);
         }
     }
@@ -311,6 +318,11 @@ void mouseClick(int button, int state, int x, int y)
             cout << "You clicked the door lock!" << endl;
             selectedComponent = doorLockId;
         }
+        else if (detectInteraction(bookPosition.minX, bookPosition.maxX, bookPosition.minY, bookPosition.maxY, bookPosition.minZ, bookPosition.maxZ))
+        {
+            cout << "You clicked the door lock!" << endl;
+            selectedComponent = bookId;
+        }
         else if (detectInteraction(tablePosition.minX, tablePosition.maxX, tablePosition.minY, tablePosition.maxY, tablePosition.minZ, tablePosition.maxZ))
         {
             cout << "You clicked the door lock!" << endl;
@@ -424,6 +436,7 @@ int main(int argc, char *argv[])
     doorTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/door.png");
     metalTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/metal.png");
     concreteTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/concrete.png");
+    bookPagesTex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/book_pages.png");
 
     glutMainLoop();
 

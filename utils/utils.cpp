@@ -35,7 +35,7 @@ bool detectInteraction(float minX, float maxX, float minY, float maxY, float min
 
 
 // TEST FUNCTIONS
-void drawDebugHitbox(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
+void drawDebugHitbox(ComponentPosition pos)
 {
     glDisable(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
@@ -43,13 +43,13 @@ void drawDebugHitbox(float minX, float maxX, float minY, float maxY, float minZ,
     glColor3f(1.0f, 1.0f, 0.0f); // Yellow color
 
     // Calculate the center and size of the box
-    float centerX = (minX + maxX) / 2.0f;
-    float centerY = (minY + maxY) / 2.0f;
-    float centerZ = (minZ + maxZ) / 2.0f;
+    float centerX = (pos.minX + pos.maxX) / 2.0f;
+    float centerY = (pos.minY + pos.maxY) / 2.0f;
+    float centerZ = (pos.minZ + pos.maxZ) / 2.0f;
 
-    float width = maxX - minX;
-    float height = maxY - minY;
-    float depth = maxZ - minZ;
+    float width = pos.maxX - pos.minX;
+    float height = pos.maxY - pos.minY;
+    float depth = pos.maxZ - pos.minZ;
 
     glPushMatrix();
     glTranslatef(centerX, centerY, centerZ);

@@ -31,7 +31,10 @@ void light()
 }
 
 void book(){
+    glBindTexture(GL_TEXTURE_2D, bookPagesTex);
     glPushMatrix();
+    glTranslatef(4.5, -0.7, 4.5);
+    glScalef(0.5, 0.5, 0.5);
     glPushMatrix();
     glTranslatef(-0.1,0.015,0);
     glColor3f(1,0,0);
@@ -44,7 +47,7 @@ void book(){
     glScalef(1.1,0.1,1.01);
     glColor3f(1,0,0);
     Quads(0,5,-0.5);
-    Quads(0,-5,-0.5);
+    Quads(0,-5.001,-0.5);
 
     glPopMatrix();
     
