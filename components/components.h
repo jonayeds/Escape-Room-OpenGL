@@ -3,6 +3,7 @@
 void light();
 void Room();
 void door();
-void doorLock();     
-void table();   
+void doorLock();
+void table();
+void chair();
 void book();

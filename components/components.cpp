@@ -53,6 +53,53 @@ void book(){
     
 }
 
+void chair(){
+    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glColor3f(0.8, 0.8, 0.8);
+    glPushMatrix();
+    glTranslatef(4.2, -1.7, 3.0);     
+
+    // Seat
+    glPushMatrix();
+    glScalef(1.0, 0.2, 1.0);
+    Quads(0,0,0);
+    glPopMatrix();
+
+    // Backrest
+    glPushMatrix();
+    glTranslatef(0, 0.2, 0);
+    glScalef(1.0, 1.0, 0.1);
+    Quads(0,0,0);
+    glPopMatrix();
+
+    // Legs
+    glPushMatrix();
+    glTranslatef(0, -0.8, 0);
+    glScalef(0.1, 0.8, 0.1);
+    Quads(0,0,0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.9, -0.8, 0);
+    glScalef(0.1, 0.8, 0.1);
+    Quads(0,0,0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0, -0.8, 0.9);
+    glScalef(0.1, 0.8, 0.1);
+    Quads(0,0,0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.9, -0.8, 0.9);
+    glScalef(0.1, 0.8, 0.1);
+    Quads(0,0,0);
+    glPopMatrix();
+
+    glPopMatrix();
+}
+
 
 void table(){
     glBindTexture(GL_TEXTURE_2D, woodTex);
@@ -331,7 +378,8 @@ void Room()
     
     door();
     table();
-    book(); 
+    chair();
+    book();
     glDisable(GL_TEXTURE_2D);   
 
 
