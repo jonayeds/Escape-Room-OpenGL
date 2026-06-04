@@ -118,7 +118,7 @@ static void display(void)
 
         // test
         // drawDebugLaser();
-        // drawDebugHitbox(bookPosition);
+        // drawDebugHitbox(chairPosition);
 
         glPushMatrix();
         Room();
@@ -157,9 +157,18 @@ static void display(void)
         }
         else if (selectedComponent == bookId){
             glEnable(GL_TEXTURE_2D);
-            glScalef(1.5,1.5,1.5);  
+            glScalef(1.5,1.5,1.5);
             glTranslatef(-4.8, 0.7, -4.5);
             book();
+            glDisable(GL_TEXTURE_2D);
+        }
+        else if (selectedComponent == chairId)
+        {
+            glEnable(GL_TEXTURE_2D);
+            glScalef(1.0, 1.0, 1.0);
+            glTranslatef(-4.2, 1.7, -3.0);
+            glTranslatef(-0.5, -0.5, -0.5);
+            chair();
             glDisable(GL_TEXTURE_2D);
         }
     }
@@ -323,12 +332,16 @@ void mouseClick(int button, int state, int x, int y)
             cout << "You clicked the door lock!" << endl;
             selectedComponent = bookId;
         }
+        else if (detectInteraction(chairPosition.minX, chairPosition.maxX, chairPosition.minY, chairPosition.maxY, chairPosition.minZ, chairPosition.maxZ))
+        {
+            cout << "You clicked the chair!" << endl;
+            selectedComponent = chairId;
+        }
         else if (detectInteraction(tablePosition.minX, tablePosition.maxX, tablePosition.minY, tablePosition.maxY, tablePosition.minZ, tablePosition.maxZ))
         {
-            cout << "You clicked the door lock!" << endl;
+            cout << "You clicked the table!" << endl;
             selectedComponent = tableId;
         }
-
         else
         {
             selectedComponent = -1;

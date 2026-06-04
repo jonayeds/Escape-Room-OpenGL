@@ -34,6 +34,7 @@ extern int selectedComponent;
 extern int doorLockId;
 extern int tableId;
 extern int bookId;
+extern int chairId;
 extern string doorCode;
 extern string inputCode;
 
@@ -51,3 +52,4 @@ extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTe
 extern ComponentPosition doorPosition;
 extern ComponentPosition tablePosition;
 extern ComponentPosition bookPosition;
+extern ComponentPosition chairPosition;
