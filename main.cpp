@@ -118,7 +118,7 @@ static void display(void)
 
         // test
         // drawDebugLaser();
-        drawDebugHitbox(wallFramePosition);
+        // drawDebugHitbox(wallFrame2Position);
 
         glPushMatrix();
         Room();
@@ -171,12 +171,20 @@ static void display(void)
             chair();
             glDisable(GL_TEXTURE_2D);
         }
-        else if (selectedComponent == wallFrameId)
+        else if (selectedComponent == wallFrame1Id)
         {
             glEnable(GL_TEXTURE_2D);
             glRotatef(90, 0, 1, 0); 
             glTranslatef(-6.5f, 0.0f, 2.5f);
             wall_frame();
+            glDisable(GL_TEXTURE_2D);
+        }
+        else if (selectedComponent == wallFrame2Id)
+        {
+            glEnable(GL_TEXTURE_2D);
+            glRotatef(180, 0, 1, 0); 
+            glTranslatef(-5, -0.5, -6.5);
+            wall_frame2();
             glDisable(GL_TEXTURE_2D);
         }
     }
@@ -330,30 +338,35 @@ void mouseClick(int button, int state, int x, int y)
             return;
         }
 
-        if (detectInteraction(doorPosition.minX, doorPosition.maxX, doorPosition.minY, doorPosition.maxY, doorPosition.minZ, doorPosition.maxZ))
+        if (detectInteraction(doorPosition))
         {
             cout << "You clicked the door lock!" << endl;
             selectedComponent = doorLockId;
         }
-        else if (detectInteraction(bookPosition.minX, bookPosition.maxX, bookPosition.minY, bookPosition.maxY, bookPosition.minZ, bookPosition.maxZ))
+        else if (detectInteraction(bookPosition))
         {
             cout << "You clicked the door lock!" << endl;
             selectedComponent = bookId;
         }
-        else if (detectInteraction(chairPosition.minX, chairPosition.maxX, chairPosition.minY, chairPosition.maxY, chairPosition.minZ, chairPosition.maxZ))
+        else if (detectInteraction(chairPosition))
         {
             cout << "You clicked the chair!" << endl;
             selectedComponent = chairId;
         }
-        else if (detectInteraction(wallFramePosition.minX, wallFramePosition.maxX, wallFramePosition.minY, wallFramePosition.maxY, wallFramePosition.minZ, wallFramePosition.maxZ))
+        else if (detectInteraction(wallFrame1Position))
         {
             cout << "You clicked the wall frame!" << endl;
-            selectedComponent = wallFrameId;
+            selectedComponent = wallFrame1Id;
         }
-        else if (detectInteraction(tablePosition.minX, tablePosition.maxX, tablePosition.minY, tablePosition.maxY, tablePosition.minZ, tablePosition.maxZ))
+        else if (detectInteraction(tablePosition))
         {
             cout << "You clicked the table!" << endl;
             selectedComponent = tableId;
+        }
+        else if (detectInteraction(wallFrame2Position))
+        {
+            cout << "You clicked the wall frame 2!" << endl;
+            selectedComponent = wallFrame2Id;
         }
         else
         {
@@ -465,6 +478,7 @@ int main(int argc, char *argv[])
     bookPagesTex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/book_pages.png");
     bookCoverTex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/book_cover.png");
     painting1Tex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/julius_caesar_painting.png");
+    painting2Tex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/leo_painting.png");
 
     glutMainLoop();
 

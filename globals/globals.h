@@ -3,7 +3,6 @@
 #include <iostream>
 using namespace std;
 
-
 extern float degreeX;
 extern float degreeY;
 extern float degreeZ;
@@ -25,7 +24,7 @@ extern int windowHeight;
 extern int mouseX;
 extern int mouseY;
 extern int lastMouseX;
-extern int lastMouseY;    
+extern int lastMouseY;
 
 extern float doorAngle;
 extern bool doorAnimating;
@@ -35,11 +34,13 @@ extern int doorLockId;
 extern int tableId;
 extern int bookId;
 extern int chairId;
-extern int wallFrameId;
+extern int wallFrame1Id;
+extern int wallFrame2Id;
 extern string doorCode;
 extern string inputCode;
 
-struct ComponentPosition{
+struct ComponentPosition
+{
     float minX;
     float maxX;
     float minY;
@@ -48,10 +49,11 @@ struct ComponentPosition{
     float maxZ;
 };
 
-extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex;
+extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex, painting2Tex;
 
 extern ComponentPosition doorPosition;
 extern ComponentPosition tablePosition;
 extern ComponentPosition bookPosition;
 extern ComponentPosition chairPosition;
-extern ComponentPosition wallFramePosition;
+extern ComponentPosition wallFrame1Position;
+extern ComponentPosition wallFrame2Position;

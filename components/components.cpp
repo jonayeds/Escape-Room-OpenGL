@@ -68,6 +68,36 @@ void drawText(float x, float y, float z, float size, const char *text, float lin
 }
 
 
+void wall_frame2 (){
+    glPushMatrix();
+    glTranslatef(5, 0.5, 6.5); 
+    
+    // Frame
+    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glColor3f(0.8, 0.8, 0.8);
+    glPushMatrix();
+    glScalef(1, 1, 0.1);
+    Quads(-0.5f, -0.5f, -0.5f);
+    glPopMatrix();
+    
+    // Painting
+    glPushMatrix();
+    glColor3f(1, 1, 1);
+    glTranslatef(0.0, 0.0, -0.01); 
+    glScalef(0.9f, 0.9f, 0.1f);
+    glBindTexture(GL_TEXTURE_2D, painting2Tex);
+    Quads(-0.5f, -0.5f, -0.5f);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0, 0, 0); 
+    glTranslatef(-0.0, 0.0, 0.1);
+    drawText(0, 0.0, 0.0, 0.0009, "5"); 
+    glPopMatrix();
+
+    glPopMatrix();
+}
+
 void wall_frame (){
     glPushMatrix();
     glTranslatef(6.5, 0.0, -2.5); // Position on the right wall
@@ -87,6 +117,14 @@ void wall_frame (){
     glScalef(0.1f, 0.9f, 0.9f);
     glBindTexture(GL_TEXTURE_2D, painting1Tex);
     Quads(-0.5f, -0.5f, -0.5f);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0, 0, 0); 
+    glTranslatef(0.1, 0.0, 0.4);
+    glRotatef(90, 0, 1, 0);
+    drawText(0, 0.0, 0.0, 0.0006, "Maximum combination",1); 
+    drawText(0, -0.1, 0.0, 0.0006, "is the code", 1.0); 
     glPopMatrix();
 
     glPopMatrix();
@@ -434,6 +472,7 @@ void Room()
     chair();
     book();
     wall_frame();   
+    wall_frame2();   
     glDisable(GL_TEXTURE_2D);   
 
 

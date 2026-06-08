@@ -11,7 +11,7 @@
 using namespace std;
 
 
-bool detectInteraction(float minX, float maxX, float minY, float maxY, float minZ, float maxZ)
+bool detectInteraction(ComponentPosition pos)
 {
     float maxReach = 3.5f;
     float stepSize = 0.1f;
@@ -22,9 +22,9 @@ bool detectInteraction(float minX, float maxX, float minY, float maxY, float min
         float checkY = posY + (lookDirY * t);
         float checkZ = posZ + (lookDirZ * t);
 
-        if (checkX >= minX && checkX <= maxX &&
-            checkY >= minY && checkY <= maxY &&
-            checkZ >= minZ && checkZ <= maxZ)
+        if (checkX >= pos.minX && checkX <= pos.maxX &&
+            checkY >= pos.minY && checkY <= pos.maxY &&
+            checkZ >= pos.minZ && checkZ <= pos.maxZ)
         {
             return true;
         }

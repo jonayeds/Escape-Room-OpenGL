@@ -1,6 +1,6 @@
 #pragma once
 #include "../globals/globals.h"
 
-bool detectInteraction(float minX, float maxX, float minY, float maxY, float minZ, float maxZ);
+bool detectInteraction(ComponentPosition pos);
 void drawDebugHitbox(ComponentPosition pos);
 void drawDebugLaser();
