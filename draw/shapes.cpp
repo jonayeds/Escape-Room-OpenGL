@@ -17,65 +17,50 @@ void Quads(float x, float y, float z)
     float max_y = y + 1.0f;
     float max_z = z + 1.0f;
 
-    glNormal3f(0.0f, 0.0f, -1.0f);
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(x, max_y, z);
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(max_x, max_y, z);
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(max_x, y, z);
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(x, y, z);
-
-    glNormal3f(-1.0f, 0.0f, 0.0f);
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(x, max_y, max_z);
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(x, max_y, z);
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(x, y, z);
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(x, y, max_z);
-
+    // 1. FRONT FACE (+Z)
     glNormal3f(0.0f, 0.0f, 1.0f);
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(max_x, max_y, max_z);
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(x, max_y, max_z);
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(x, y, max_z);
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(max_x, y, max_z);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(x, y, max_z);         // Bottom-Left
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(max_x, y, max_z);     // Bottom-Right
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(max_x, max_y, max_z); // Top-Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(x, max_y, max_z);     // Top-Left
 
+    // 2. BACK FACE (-Z)
+    // Note: Viewed from the back, max_x is the LEFT edge, x is the RIGHT edge.
+    glNormal3f(0.0f, 0.0f, -1.0f);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(max_x, y, z);         // Bottom-Left
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(x, y, z);             // Bottom-Right
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(x, max_y, z);         // Top-Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(max_x, max_y, z);     // Top-Left
+
+    // 3. LEFT FACE (-X)
+    // Note: Viewed from the left, z is the LEFT edge, max_z is the RIGHT edge.
+    glNormal3f(-1.0f, 0.0f, 0.0f);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(x, y, z);             // Bottom-Left
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(x, y, max_z);         // Bottom-Right
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(x, max_y, max_z);     // Top-Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(x, max_y, z);         // Top-Left
+
+    // 4. RIGHT FACE (+X)
+    // Note: Viewed from the right, max_z is the LEFT edge, z is the RIGHT edge.
     glNormal3f(1.0f, 0.0f, 0.0f);
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(max_x, max_y, z);
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(max_x, max_y, max_z);
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(max_x, y, max_z);
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(max_x, y, z);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(max_x, y, max_z);     // Bottom-Left
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(max_x, y, z);         // Bottom-Right
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(max_x, max_y, z);     // Top-Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(max_x, max_y, max_z); // Top-Left
 
-    glNormal3f(0.0f, -1.0f, 0.0f);
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(max_x, y, max_z);
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(x, y, max_z);
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(x, y, z);
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(max_x, y, z);
-
+    // 5. TOP FACE (+Y)
     glNormal3f(0.0f, 1.0f, 0.0f);
-    glTexCoord2f(0.0f, 1.0f);
-    glVertex3f(max_x, max_y, z);
-    glTexCoord2f(1.0f, 1.0f);
-    glVertex3f(x, max_y, z);
-    glTexCoord2f(1.0f, 0.0f);
-    glVertex3f(x, max_y, max_z);
-    glTexCoord2f(0.0f, 0.0f);
-    glVertex3f(max_x, max_y, max_z);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(x, max_y, max_z);     // Bottom-Left
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(max_x, max_y, max_z); // Bottom-Right
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(max_x, max_y, z);     // Top-Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(x, max_y, z);         // Top-Left
+
+    // 6. BOTTOM FACE (-Y)
+    glNormal3f(0.0f, -1.0f, 0.0f);
+    glTexCoord2f(0.0f, 0.0f); glVertex3f(x, y, z);             // Bottom-Left
+    glTexCoord2f(1.0f, 0.0f); glVertex3f(max_x, y, z);         // Bottom-Right
+    glTexCoord2f(1.0f, 1.0f); glVertex3f(max_x, y, max_z);     // Top-Right
+    glTexCoord2f(0.0f, 1.0f); glVertex3f(x, y, max_z);         // Top-Left
 
     glEnd();
 }

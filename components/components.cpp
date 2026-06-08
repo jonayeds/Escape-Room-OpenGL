@@ -30,10 +30,78 @@ void light()
     glPopMatrix();
 }
 
+
+void drawText(float x, float y, float z, float size, const char *text, float lineWidth = 2.0f)
+{
+    glPushMatrix();
+    glDisable(GL_LIGHTING);
+    glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glTranslatef(x, y, z);
+    glScalef(size, size, size);
+    glLineWidth(lineWidth);
+    int passes = 3 ; 
+    float offsetAmount = 0.5f; // Adjust this if the bolding is too wide or too narrow
+
+    for (int p = 0; p < passes; p++)
+    {
+        glPushMatrix();
+        
+        // Shift slightly for the 2nd and 3rd passes to create thickness
+        if (p == 1) glTranslatef(offsetAmount, 0.0f, 0.0f);
+        if (p == 2) glTranslatef(0.0f, offsetAmount, 0.0f);
+
+        // Draw the string
+        const char *c = text;
+        while (*c)
+        {
+            glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
+            c++;
+        }
+        
+        glPopMatrix();
+    }
+    glLineWidth(1.0f);
+    glEnable(GL_LIGHTING);
+    glPopMatrix();
+}
+
+
+void wall_frame (){
+    glPushMatrix();
+    glTranslatef(6.5, 0.0, -2.5); // Position on the right wall
+    
+    // Frame
+    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glColor3f(0.8, 0.8, 0.8);
+    glPushMatrix();
+    glScalef(0.1, 1, 1);
+    Quads(-0.5f, -0.5f, -0.5f);
+    glPopMatrix();
+    
+    // Painting
+    glPushMatrix();
+    glColor3f(1, 1, 1);
+    glTranslatef(-0.01, 0.0, 0); 
+    glScalef(0.1f, 0.9f, 0.9f);
+    glBindTexture(GL_TEXTURE_2D, painting1Tex);
+    Quads(-0.5f, -0.5f, -0.5f);
+    glPopMatrix();
+
+    glPopMatrix();
+}
+
 void book(){
     glBindTexture(GL_TEXTURE_2D, bookPagesTex);
     glPushMatrix();
     glTranslatef(4.5, -0.7, 4.5);
+        glPushMatrix(); 
+        glTranslatef(0.3, 0.5, 1.2);
+        glRotatef(-90, 1, 0, 0); 
+        glColor3f(1, 0, 0);
+        drawText(0, 1.2, -0.4, 0.001, "2", 10.0f);
+        glPopMatrix();  
     glScalef(0.5, 0.5, 0.5);
     glPushMatrix();
     glTranslatef(-0.1,0.015,0);
@@ -48,6 +116,7 @@ void book(){
     glBindTexture(GL_TEXTURE_2D, bookCoverTex);
     Quads(0,5,-0.5);
     Quads(0,-5.001,-0.5);
+
 
     glPopMatrix();
     
@@ -101,6 +170,7 @@ void chair(){
 }
 
 
+
 void table(){
     glBindTexture(GL_TEXTURE_2D, woodTex);
     glColor3f(0.8, 0.8, 0.8);
@@ -142,23 +212,6 @@ void table(){
 }
 
 
-
-void drawText(float x, float y, float z, float size, const char *text)
-{
-    glPushMatrix();
-    glDisable(GL_LIGHTING);
-    glTranslatef(x, y, z);
-    glScalef(size, size, size);
-    glLineWidth(2);
-    while (*text)
-    {
-        glutStrokeCharacter(GLUT_STROKE_ROMAN, *text);
-        text++;
-    }
-    glLineWidth(1.0f);
-    glEnable(GL_LIGHTING);
-    glPopMatrix();
-}
 
 void doorLock()
 {  
@@ -380,6 +433,7 @@ void Room()
     table();
     chair();
     book();
+    wall_frame();   
     glDisable(GL_TEXTURE_2D);   
 
 

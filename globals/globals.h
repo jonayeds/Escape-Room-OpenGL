@@ -35,6 +35,7 @@ extern int doorLockId;
 extern int tableId;
 extern int bookId;
 extern int chairId;
+extern int wallFrameId;
 extern string doorCode;
 extern string inputCode;
 
@@ -47,9 +48,10 @@ struct ComponentPosition{
     float maxZ;
 };
 
-extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex;
+extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex;
 
 extern ComponentPosition doorPosition;
 extern ComponentPosition tablePosition;
 extern ComponentPosition bookPosition;
 extern ComponentPosition chairPosition;
+extern ComponentPosition wallFramePosition;

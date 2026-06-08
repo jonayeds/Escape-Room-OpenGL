@@ -33,16 +33,18 @@ int doorLockId = 0;
 int tableId = 1;
 int bookId = 2;
 int chairId = 3;
+int wallFrameId = 4;
 string doorCode = "1234";
 string inputCode = "";   
 
 // texture IDs
-unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex;
+unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex;
 
 // components positions
 ComponentPosition doorPosition = {-0.3f, 0.8f, 0.0f, 1.0f, -6.5f, -6.3f};
 ComponentPosition tablePosition = {3.5, 5.95f, -2.5f, -0.85f, 4.0f, 5.5f};
 ComponentPosition bookPosition = {4.36, 5.0, -0.8f, -0.6f, 4.25f, 4.75f};
 ComponentPosition chairPosition = {4.2f, 5.2f, -2.5f, -0.5f, 3.0f, 4.0f};
+ComponentPosition wallFramePosition = {6.44f, 6.56f, -0.5f, 0.5f, -3.1f, -1.9f};
 
 
