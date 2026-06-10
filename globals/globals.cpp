@@ -44,7 +44,7 @@ string doorCode = "1234";
 string inputCode = "";   
 
 // texture IDs
-unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex, painting2Tex, book2CoverTex;
+unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex, painting2Tex, book2CoverTex, wallMapTex;
 
 // components positions
 ComponentPosition doorPosition = {-0.3f, 0.8f, 0.0f, 1.0f, -6.5f, -6.3f};

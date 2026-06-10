@@ -54,7 +54,7 @@ struct ComponentPosition
     float maxZ;
 };
 
-extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex, painting2Tex, book2CoverTex;
+extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex, painting2Tex, book2CoverTex, wallMapTex;
 
 extern ComponentPosition doorPosition;
 extern ComponentPosition tablePosition;

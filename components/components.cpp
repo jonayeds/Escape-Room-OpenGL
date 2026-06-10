@@ -44,7 +44,6 @@ void light()
     glPopMatrix();
 }
 
-
 void drawText(float x, float y, float z, float size, const char *text, float lineWidth = 2.0f)
 {
     glPushMatrix();
@@ -76,8 +75,32 @@ void drawText(float x, float y, float z, float size, const char *text, float lin
     glPopMatrix();
 }
 
+void wallMap(){
+    glPushMatrix();
+    glTranslatef(-4, 0.5, 6.5); 
+    
+    // map
+    glPushMatrix();
+    glColor3f(1, 1, 1);
+    glTranslatef(0.0, 0.0, -0.01); 
+    glScalef(4, 4, 0.1f);
+    glBindTexture(GL_TEXTURE_2D, wallMapTex);
+    glColor3f(0.45, 0.45, 0.45);
+    Quads(-0.5f, -0.5f, -0.5f);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0, 0, 0); 
+    glTranslatef(-0.0, 0.0, 0.1);
+    drawText(0, 0.0, 0.0, 0.0009, "5"); 
+    glPopMatrix();
+
+    glPopMatrix();
+}
+
 void wallClock(){
     glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, metalTex);
     glTranslatef(-6.3f, 0.0f, -2.5f); 
     glRotated(-180, 0, 1, 0);
     glRotatef(-90, 0, 1, 0); 
@@ -568,6 +591,7 @@ void Room()
     wall_frame2();  
     teapot(); 
     wallClock();
+    wallMap();
     glDisable(GL_TEXTURE_2D);   
 
 
