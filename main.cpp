@@ -119,7 +119,7 @@ static void display(void)
 
         // test
         // drawDebugLaser();
-        // drawDebugHitbox(clockPosition);
+        // drawDebugHitbox(dodecahedronPosition);
 
         glPushMatrix();
         Room();
@@ -208,6 +208,23 @@ static void display(void)
             glRotatef(-90, 0, 1, 0);
             glTranslatef(6.3f, 0.0f, 2.5f);
             wallClock();
+            glDisable(GL_TEXTURE_2D);
+        }
+        else if (selectedComponent == wallMapId)
+        {
+            glEnable(GL_TEXTURE_2D);
+            glRotatef(-180, 0, 1, 0);
+            glScalef(0.5, 0.5, 0.5);
+            glTranslatef(4, -0.5, -6.5f);
+            wallMap();
+            glDisable(GL_TEXTURE_2D);
+        }
+        else if (selectedComponent == dodecahedronId)
+        {
+            glEnable(GL_TEXTURE_2D);
+            // glScalef(0.5, 0.5, 0.5);
+            glTranslatef(3.5, 2.0, -3);
+            dodecahedron();
             glDisable(GL_TEXTURE_2D);
         }
     }
@@ -415,6 +432,16 @@ void mouseClick(int button, int state, int x, int y)
         {
             cout << "You clicked the wall clock!" << endl;
             selectedComponent = clockId;
+        }
+        else if (detectInteraction(wallMapPosition))
+        {
+            cout << "You clicked the wall map!" << endl;
+            selectedComponent = wallMapId;
+        }
+        else if (detectInteraction(dodecahedronPosition))
+        {
+            cout << "You clicked the dodecahedron!" << endl;
+            selectedComponent = dodecahedronId;
         }
         else
         {

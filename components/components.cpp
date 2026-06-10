@@ -75,13 +75,35 @@ void drawText(float x, float y, float z, float size, const char *text, float lin
     glPopMatrix();
 }
 
+
+void dodecahedron(){
+    glBindTexture(GL_TEXTURE_2D, woodTex);
+    glPushMatrix();
+    glTranslatef(-3.5, -2.0, 3);
+    glScalef(0.4, 0.4, 0.4);
+
+    glColor3f(0.5f, 0.5f, 0.5f);
+
+    glutSolidDodecahedron();
+
+    glPopMatrix();
+}
+
 void wallMap(){
     glPushMatrix();
     glTranslatef(-4, 0.5, 6.5); 
     
+
+     glPushMatrix();
+    glColor3f(1, 1, 1);
+    glTranslatef(0.0, 0.0, 0.1); 
+    glDisable(GL_TEXTURE_2D);
+    glScalef(4, 4, 0.1f);
+    Quads(-0.5f, -0.5f, -0.5f);
+    glEnable(GL_TEXTURE_2D);    
+    glPopMatrix();
     // map
     glPushMatrix();
-    glColor3f(1, 1, 1);
     glTranslatef(0.0, 0.0, -0.01); 
     glScalef(4, 4, 0.1f);
     glBindTexture(GL_TEXTURE_2D, wallMapTex);
@@ -91,7 +113,7 @@ void wallMap(){
 
     glPushMatrix();
     glColor3f(0, 0, 0); 
-    glTranslatef(-0.0, 0.0, 0.1);
+    glTranslatef(-0.0, 0.0, 0.2);
     drawText(0, 0.0, 0.0, 0.0009, "5"); 
     glPopMatrix();
 
@@ -592,6 +614,7 @@ void Room()
     teapot(); 
     wallClock();
     wallMap();
+    dodecahedron();
     glDisable(GL_TEXTURE_2D);   
 
 

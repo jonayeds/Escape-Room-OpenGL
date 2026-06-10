@@ -41,6 +41,9 @@ extern int wallFrame1Id;
 extern int wallFrame2Id;
 extern int teapotId;
 extern int clockId;
+extern int wallMapId;
+extern int dodecahedronId;
+
 extern string doorCode;
 extern string inputCode;
 
@@ -65,3 +68,5 @@ extern ComponentPosition wallFrame1Position;
 extern ComponentPosition wallFrame2Position;
 extern ComponentPosition teapotPosition;
 extern ComponentPosition clockPosition;
+extern ComponentPosition wallMapPosition;
+extern ComponentPosition dodecahedronPosition;

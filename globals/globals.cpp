@@ -40,6 +40,9 @@ int wallFrame2Id = 5;
 int teapotId = 6;
 int book2Id = 7;
 int clockId = 8;
+int wallMapId = 9;
+int dodecahedronId = 10;
+
 string doorCode = "1234";
 string inputCode = "";   
 
@@ -56,3 +59,5 @@ ComponentPosition wallFrame1Position = {6.44f, 6.56f, -0.5f, 0.5f, -3.1f, -1.9f}
 ComponentPosition wallFrame2Position = {4.5f, 5.5f, 0.0f, 1.0f, 6.44f, 6.55f};
 ComponentPosition teapotPosition = {3.5f, 4.0f, -0.8f, -0.5, 4.2f, 4.6f};
 ComponentPosition clockPosition = {-6.3f, -6.15f, -0.5f, 0.5, -3.0f, -2.0f};
+ComponentPosition wallMapPosition = {-6.0f, -2.0f, -1.5f, 2.5, 6.3,6.5f};
+ComponentPosition dodecahedronPosition = {-4.1f, -2.8f, -2.5f, -1.3, 2.5,3.5f};
