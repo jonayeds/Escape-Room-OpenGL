@@ -76,6 +76,44 @@ void drawText(float x, float y, float z, float size, const char *text, float lin
     glPopMatrix();
 }
 
+void wallClock(){
+    glPushMatrix();
+    glTranslatef(-6.3f, 0.0f, -2.5f); 
+    glRotated(-180, 0, 1, 0);
+    glRotatef(-90, 0, 1, 0); 
+    glScalef(0.5f, 0.5f, 0.5f);
+    glColor3f(0.8, 0.8, 0.8);
+    cylinder(1, 0.1);
+    glColor3f(1,1,1);
+    glDisable(GL_TEXTURE_2D);
+    glScalef(0.85f, 0.85f, 0.85f);
+    glTranslatef(0,0,0.05);
+    cylinder(1, 0.1);
+    glEnable(GL_TEXTURE_2D);
+
+    glPushMatrix(); 
+    glRotatef(-clockRotation, 0, 0, 1);
+    glTranslatef(0,0.4,0.1);
+    glScalef(0.025f, 0.8f, 0.025f); 
+    Quads(-0.5,-0.5,-0.5);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(1, 0, 0);   
+    glRotatef((float)-clockRotation/12, 0, 0, 1); 
+    glTranslatef(0.3,0.0,0.1);
+    glRotatef(90, 0, 0, 1);
+    glScalef(0.025f, 0.6f, 0.025f); 
+    Quads(-0.5, -0.5,-0.5); 
+    glPopMatrix();
+
+    glColor3f(0.2, 0.2, 0.2);
+    drawText(0.7f, -0.0, 0.1f, 0.0015f, "3", 3.0f);
+    drawText(-0.9f, -0.0, 0.1f, 0.0015f, "9", 3.0f);
+    drawText(-0.1f, 0.7, 0.1f, 0.0015f, "12", 3.0f);
+    drawText(-0.1f, -0.85, 0.1f, 0.0015f, "6", 3.0f);
+    glPopMatrix();          
+}
 
 void book2(){
     glBindTexture(GL_TEXTURE_2D, bookPagesTex);
@@ -265,8 +303,6 @@ void chair(){
     glPopMatrix();
 }
 
-
-
 void table(){
     glBindTexture(GL_TEXTURE_2D, woodTex);
     glColor3f(0.8, 0.8, 0.8);
@@ -306,8 +342,6 @@ void table(){
 
     glPopMatrix();
 }
-
-
 
 void doorLock()
 {  
@@ -533,6 +567,7 @@ void Room()
     wall_frame();   
     wall_frame2();  
     teapot(); 
+    wallClock();
     glDisable(GL_TEXTURE_2D);   
 
 

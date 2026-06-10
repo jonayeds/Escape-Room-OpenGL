@@ -29,6 +29,7 @@ extern int lastMouseY;
 extern float doorAngle;
 extern bool doorAnimating;
 extern bool isLightOn;
+extern float clockRotation;
 
 extern int selectedComponent;
 extern int doorLockId;
@@ -39,6 +40,7 @@ extern int chairId;
 extern int wallFrame1Id;
 extern int wallFrame2Id;
 extern int teapotId;
+extern int clockId;
 extern string doorCode;
 extern string inputCode;
 
@@ -62,3 +64,4 @@ extern ComponentPosition chairPosition;
 extern ComponentPosition wallFrame1Position;
 extern ComponentPosition wallFrame2Position;
 extern ComponentPosition teapotPosition;
+extern ComponentPosition clockPosition;

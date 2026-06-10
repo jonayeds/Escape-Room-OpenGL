@@ -57,7 +57,7 @@ void mouseMove(int x, int y)
         return;
     }
 
-    glutSetCursor(GLUT_CURSOR_NONE);
+  
     if (lastMouseX == -1 || lastMouseY == -1)
     {
         lastMouseX = x;
@@ -119,7 +119,7 @@ static void display(void)
 
         // test
         // drawDebugLaser();
-        // drawDebugHitbox(book2Position);
+        // drawDebugHitbox(clockPosition);
 
         glPushMatrix();
         Room();
@@ -200,6 +200,14 @@ static void display(void)
             glRotatef(180, 0, 1, 0); 
             glTranslatef(-5, -0.5, -6.5);
             wall_frame2();
+            glDisable(GL_TEXTURE_2D);
+        }
+        else if (selectedComponent == clockId)
+        {
+            glEnable(GL_TEXTURE_2D);
+            glRotatef(-90, 0, 1, 0);
+            glTranslatef(6.3f, 0.0f, 2.5f);
+            wallClock();
             glDisable(GL_TEXTURE_2D);
         }
     }
@@ -403,6 +411,11 @@ void mouseClick(int button, int state, int x, int y)
             cout << "You clicked the wall frame 2!" << endl;
             selectedComponent = wallFrame2Id;
         }
+        else if (detectInteraction(clockPosition))
+        {
+            cout << "You clicked the wall clock!" << endl;
+            selectedComponent = clockId;
+        }
         else
         {
             selectedComponent = -1;
@@ -433,6 +446,13 @@ void timer(int value)
     {
         glDisable(GL_LIGHT0);
     }
+
+    if(clockRotation >= 4320.0f){
+        clockRotation = 0.0f;
+    }else{
+        clockRotation += 0.5f;
+    }
+    
 
     glutPostRedisplay();
     glutTimerFunc(16, timer, 0); //  Wait 16ms, then run this function again
@@ -485,6 +505,7 @@ int main(int argc, char *argv[])
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
     glutCreateWindow("Escape Room");
+      glutSetCursor(GLUT_CURSOR_NONE);
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
