@@ -33,6 +33,7 @@ extern int selectedComponent;
 extern int doorLockId;
 extern int tableId;
 extern int bookId;
+extern int book2Id;
 extern int chairId;
 extern int wallFrame1Id;
 extern int wallFrame2Id;
@@ -50,11 +51,12 @@ struct ComponentPosition
     float maxZ;
 };
 
-extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex, painting2Tex;
+extern unsigned int woodTex, brickTex, sceneryTex, doorTex, metalTex, concreteTex, bookPagesTex, bookCoverTex, painting1Tex, painting2Tex, book2CoverTex;
 
 extern ComponentPosition doorPosition;
 extern ComponentPosition tablePosition;
 extern ComponentPosition bookPosition;
+extern ComponentPosition book2Position;
 extern ComponentPosition chairPosition;
 extern ComponentPosition wallFrame1Position;
 extern ComponentPosition wallFrame2Position;

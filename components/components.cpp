@@ -64,23 +64,52 @@ void drawText(float x, float y, float z, float size, const char *text, float lin
 }
 
 
+void book2(){
+    glBindTexture(GL_TEXTURE_2D, bookPagesTex);
+    glPushMatrix();
+    glTranslatef(6, -0.4, 4.5);
+    if(selectedComponent == -1){
+        glRotatef(-120, 0, 0, 1);
+    }
+        glPushMatrix(); 
+        glTranslatef(0.3, 0.4935, 1.2);
+        glRotatef(-90, 1, 0, 0); 
+        glColor3f(0, 0, 0);
+        drawText(0.1, 1.15, -0.4, 0.0008, "7", 3.0f);
+        glPopMatrix();  
+    glScalef(0.5, 0.5, 0.5);
+    glPushMatrix();
+    glTranslatef(-0.1,0.015,0);
+    glColor3f((float)144/255, (float)125/255, (float)85/255);
+    cylinder(0.165, 1);
+    glPopMatrix();
+    glScalef(1, 0.3, 1.01); 
+    glTranslatef(-0.1,0,0);
+    glColor3f((float)204/255, (float)186/255, (float)142/255);
+
+    Quads(0,-0.5,-0.5);
+    glScalef(1.1,0.1,1.01);
+    glBindTexture(GL_TEXTURE_2D, book2CoverTex);
+    Quads(0,5,-0.5);
+    Quads(0,-5.005,-0.5);
+
+
+    glPopMatrix();
+}
+
 void teapot(float size )
 {
     glPushMatrix();
-    // glPushAttrib(GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_CURRENT_BIT | GL_TEXTURE_BIT);
     glTranslatef(3.8f, -0.65f, 4.4f);
     glScalef(0.2, 0.2, 0.2);
     glRotatef(180, 0,1,0);
 
-    // Ensure the teapot is rendered as an opaque solid regardless of previous draw state.
-    // glDisable(GL_BLEND);
     glDisable(GL_CULL_FACE);
     glColor3f(1.0f, 1.0f, 1.0f);
     glBindTexture(GL_TEXTURE_2D, metalTex);
 
     glutSolidTeapot(size);
 
-    // glPopAttrib();
     glPopMatrix();
 }
 
@@ -151,10 +180,10 @@ void book(){
     glPushMatrix();
     glTranslatef(4.5, -0.7, 4.5);
         glPushMatrix(); 
-        glTranslatef(0.3, 0.5, 1.2);
+        glTranslatef(0.3, 0.4935, 1.2);
         glRotatef(-90, 1, 0, 0); 
-        glColor3f(1, 0, 0);
-        drawText(0, 1.2, -0.4, 0.001, "2", 10.0f);
+        glColor3f(0.5, 0.5, 0.5);
+        drawText(0, 1.2, -0.4, 0.001, "2", 3.0f);
         glPopMatrix();  
     glScalef(0.5, 0.5, 0.5);
     glPushMatrix();
@@ -487,6 +516,7 @@ void Room()
     table();
     chair();
     book();
+    book2();
     wall_frame();   
     wall_frame2();  
     teapot(); 
