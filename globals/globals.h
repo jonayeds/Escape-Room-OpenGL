@@ -36,6 +36,7 @@ extern int bookId;
 extern int chairId;
 extern int wallFrame1Id;
 extern int wallFrame2Id;
+extern int teapotId;
 extern string doorCode;
 extern string inputCode;
 
@@ -57,3 +58,4 @@ extern ComponentPosition bookPosition;
 extern ComponentPosition chairPosition;
 extern ComponentPosition wallFrame1Position;
 extern ComponentPosition wallFrame2Position;
+extern ComponentPosition teapotPosition;

@@ -57,6 +57,7 @@ void mouseMove(int x, int y)
         return;
     }
 
+    glutSetCursor(GLUT_CURSOR_NONE);
     if (lastMouseX == -1 || lastMouseY == -1)
     {
         lastMouseX = x;
@@ -118,7 +119,7 @@ static void display(void)
 
         // test
         // drawDebugLaser();
-        // drawDebugHitbox(wallFrame2Position);
+        // drawDebugHitbox(teapotPosition);
 
         glPushMatrix();
         Room();
@@ -153,6 +154,13 @@ static void display(void)
             glTranslatef(-3.5, 1, -4);
             glTranslatef(-1.25, 0.5, -0.75);
             table();
+            glDisable(GL_TEXTURE_2D);
+        }
+        else if (selectedComponent == teapotId){
+            glEnable(GL_TEXTURE_2D);
+            glScalef(2,2,2);
+            glTranslatef(-3.8f, 0.65f, -4.4f);
+            teapot();
             glDisable(GL_TEXTURE_2D);
         }
         else if (selectedComponent == bookId){
@@ -214,7 +222,14 @@ static void key(unsigned char key, int x, int y)
     {
     case 27:
     case 'q':
-        exit(0);
+        if(selectedComponent != -1){
+            selectedComponent = -1;
+            degreeX = 0;
+            degreeY = 0;
+            degreeZ = 0;
+        }else{
+            exit(0);
+        }
         break;
 
     case 'x':
@@ -343,6 +358,11 @@ void mouseClick(int button, int state, int x, int y)
             cout << "You clicked the door lock!" << endl;
             selectedComponent = doorLockId;
         }
+        else if (detectInteraction(teapotPosition))
+        {
+            cout << "You clicked the teapot!" << endl;
+            selectedComponent = teapotId;
+        }
         else if (detectInteraction(bookPosition))
         {
             cout << "You clicked the door lock!" << endl;
@@ -447,6 +467,8 @@ int main(int argc, char *argv[])
     glutKeyboardFunc(key);
     glutSpecialFunc(specialKey);
     glutTimerFunc(0, timer, 0);
+    glutPassiveMotionFunc(mouseMove);
+    glutMouseFunc(mouseClick);
 
     glClearColor(0, 0, 0, 1);
     glEnable(GL_CULL_FACE);
@@ -462,10 +484,6 @@ int main(int argc, char *argv[])
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     glShadeModel(GL_SMOOTH);
-
-    glutPassiveMotionFunc(mouseMove);
-    glutMouseFunc(mouseClick);
-    glutSetCursor(GLUT_CURSOR_NONE);
 
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 

@@ -1,3 +1,4 @@
+// #include<windows.h>
 #include "components.h"
 
 #ifdef __APPLE__
@@ -42,17 +43,10 @@ void drawText(float x, float y, float z, float size, const char *text, float lin
     glScalef(size, size, size);
     glLineWidth(lineWidth);
     int passes = 3 ; 
-    float offsetAmount = 0.5f; // Adjust this if the bolding is too wide or too narrow
 
     for (int p = 0; p < passes; p++)
     {
         glPushMatrix();
-        
-        // Shift slightly for the 2nd and 3rd passes to create thickness
-        if (p == 1) glTranslatef(offsetAmount, 0.0f, 0.0f);
-        if (p == 2) glTranslatef(0.0f, offsetAmount, 0.0f);
-
-        // Draw the string
         const char *c = text;
         while (*c)
         {
@@ -63,10 +57,32 @@ void drawText(float x, float y, float z, float size, const char *text, float lin
         glPopMatrix();
     }
     glLineWidth(1.0f);
+    glDisable(GL_BLEND);
+    glDisable(GL_LINE_SMOOTH);
     glEnable(GL_LIGHTING);
     glPopMatrix();
 }
 
+
+void teapot(float size )
+{
+    glPushMatrix();
+    // glPushAttrib(GL_ENABLE_BIT | GL_LIGHTING_BIT | GL_CURRENT_BIT | GL_TEXTURE_BIT);
+    glTranslatef(3.8f, -0.65f, 4.4f);
+    glScalef(0.2, 0.2, 0.2);
+    glRotatef(180, 0,1,0);
+
+    // Ensure the teapot is rendered as an opaque solid regardless of previous draw state.
+    // glDisable(GL_BLEND);
+    glDisable(GL_CULL_FACE);
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glBindTexture(GL_TEXTURE_2D, metalTex);
+
+    glutSolidTeapot(size);
+
+    // glPopAttrib();
+    glPopMatrix();
+}
 
 void wall_frame2 (){
     glPushMatrix();
@@ -472,7 +488,8 @@ void Room()
     chair();
     book();
     wall_frame();   
-    wall_frame2();   
+    wall_frame2();  
+    teapot(); 
     glDisable(GL_TEXTURE_2D);   
 
 
