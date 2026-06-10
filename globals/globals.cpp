@@ -43,7 +43,7 @@ int clockId = 8;
 int wallMapId = 9;
 int dodecahedronId = 10;
 
-string doorCode = "1234";
+string doorCode = "7552";
 string inputCode = "";   
 
 // texture IDs

@@ -457,7 +457,7 @@ void timer(int value)
     {
         if (doorAngle > -60)
         {
-            doorAngle -= 5.0f;
+            doorAngle -= 1.0f;
         }
         else
         {
@@ -474,7 +474,7 @@ void timer(int value)
         glDisable(GL_LIGHT0);
     }
 
-    if(clockRotation >= 4320.0f){
+    if(clockRotation >= (float)360.0*12){
         clockRotation = 0.0f;
     }else{
         clockRotation += 0.5f;
@@ -567,7 +567,7 @@ int main(int argc, char *argv[])
     concreteTex = loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/concrete.png");
     bookPagesTex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/book_pages.png");
     bookCoverTex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/book_cover.png");
-    painting1Tex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/julius_caesar_painting.png");
+    painting1Tex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/newton_painting.png");
     painting2Tex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/leo_painting.png");
     book2CoverTex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/book2_cover.png");
     wallMapTex= loadTexture("/Users/sajjad/University/OpenGL/Escape_Room/assets/wall_map.jpeg");
