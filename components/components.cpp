@@ -22,10 +22,23 @@ void light()
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient_1);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse_1);      
 
+    GLfloat light_diffuse_2[]  = {0.5f, 0.5f, 0.5f, 0.1f};
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse_2);      
+
     glPushMatrix();
-    glDisable(GL_LIGHTING);
-    glColor3d(1, 1, 1);
     glTranslatef(-4.0f, 2.25f, -4.0f);
+    glPushMatrix();
+    glTranslatef(0,1,0);
+    glScalef(0.2,1,0.2);
+    glColor3f(0.2, 0.2, 0.2);
+    Quads(-0.5f, -0.5f, -0.5f);
+    glPopMatrix();
+    glDisable(GL_LIGHTING);
+    if(isLightOn){
+        glColor3f(1, 1, 1);
+    }else{
+        glColor3f(0.2, 0.2, 0.2);
+    }
     glutSolidSphere(0.5, 64, 64);
     glEnable(GL_LIGHTING);
     glPopMatrix();

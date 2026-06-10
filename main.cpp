@@ -275,8 +275,11 @@ static void key(unsigned char key, int x, int y)
             scale -= 0.05;
         }
         break;
-    case 'o':
-        doorAnimating = true;
+    case '0':
+        isLightOn = false;
+        break;
+    case '1':
+        isLightOn = true;
         break;
     }
 
@@ -422,6 +425,15 @@ void timer(int value)
         }
     }
 
+    if (isLightOn)
+    {
+        glEnable(GL_LIGHT0);
+    }
+    else
+    {
+        glDisable(GL_LIGHT0);
+    }
+
     glutPostRedisplay();
     glutTimerFunc(16, timer, 0); //  Wait 16ms, then run this function again
 }
@@ -491,7 +503,7 @@ int main(int argc, char *argv[])
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    // glEnable(GL_LIGHT1);
+    glEnable(GL_LIGHT1);
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
