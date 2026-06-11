@@ -413,7 +413,7 @@ void doorLock()
     
     glPushMatrix();
     glColor3f(0, 0, 0);
-    drawText(-0.25, 0.3, 0.35, 0.0007, "Next Number");
+    drawText(-0.25, 0.3, 0.35, 0.0007, "Door Code");
     glPopMatrix();
     
     glPushMatrix();
