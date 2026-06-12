@@ -27,6 +27,16 @@ This project demonstrates the implementation of a 3D environment with interactiv
 - **Custom Geometry**: Implementation of complex 3D shapes including cylinders, dodecahedrons, and a teapot.
 - **Smooth Rendering**: Integration of line smoothing and multisampling to ensure high-quality text and edge rendering.
 
+## Gameplay Demonstration
+
+<div align="center">
+  <video src="assets/recording/3D Escape Room Game.mp4" width="640" controls>
+    Your browser does not support the video tag.
+  </video>
+  <br>
+  <a href="https://youtu.be/_gW0bN9yxdg" target="_blank">Watch Gameplay on YouTube</a>
+</div>
+
 ## Gallery
 
 ### Room View
